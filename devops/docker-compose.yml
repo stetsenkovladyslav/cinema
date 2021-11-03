@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+
+  localstack:
+    image: localstack/localstack:0.12.9.1
+    environment:
+      - SERVICES=s3
+      - DATA_DIR=/tmp/localstack/data
+    volumes:
+      - ./localstack:/tmp/localstack
+    ports:
+      - 4566:4566

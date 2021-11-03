@@ -2,10 +2,12 @@ package com.example.admin.service.file;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteObjectsRequest;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
+import software.amazon.awssdk.core.sync.RequestBody;
 
 
 import java.io.IOException;
@@ -22,8 +24,9 @@ public class AwsFileServiceImpl implements AwsFileService {
     private String bucketName;
 
     @Override
-    public void upload(String key, InputStream inputStream) throws IOException {
-        s3Client.putObject(bucketName, key, inputStream, null);
+    public void upload(String key, InputStream inputStream, long size) throws IOException {
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key,
+                String.valueOf(RequestBody.fromInputStream(inputStream, size)));
         inputStream.close();
     }
 

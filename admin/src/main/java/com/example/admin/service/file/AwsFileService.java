@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.util.Optional;
 
 public interface AwsFileService {
-    void upload(String key, InputStream inputStream) throws IOException;
+    void upload(String key, InputStream inputStream, long size) throws IOException;
 
     Optional<InputStreamResource> download(String key);
 

@@ -92,7 +92,7 @@ public class MovieServiceImpl implements MovieService {
             images.add(image);
             movie.setImages(images);
         }
-        awsFileService.upload(image.getId().toString(), multipartFile.getInputStream());
+        awsFileService.upload(image.getId().toString(), multipartFile.getInputStream(), multipartFile.getSize());
         return movieRepository.save(movie);
     }
 
@@ -130,7 +130,7 @@ public class MovieServiceImpl implements MovieService {
             videos.add(video);
             movie.setVideos(videos);
         }
-        awsFileService.upload(video.getId().toString(), multipartFile.getInputStream());
+        awsFileService.upload(video.getId().toString(), multipartFile.getInputStream(), multipartFile.getSize());
         return movieRepository.save(movie);
     }
 

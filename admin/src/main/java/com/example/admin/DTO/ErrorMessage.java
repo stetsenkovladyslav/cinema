@@ -20,5 +20,8 @@ public class ErrorMessage {
     public static class ValidationErrorMessage {
         private String field;
         private String message;
+
+        public ValidationErrorMessage(String field, String defaultMessage) {
+        }
     }
 }

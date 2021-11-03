@@ -28,7 +28,6 @@ public class MovieController {
 
     private final MovieService movieService;
     private final MovieMapper movieMapper;
-    private final AwsFileService awsFileService;
 
     @PostMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,

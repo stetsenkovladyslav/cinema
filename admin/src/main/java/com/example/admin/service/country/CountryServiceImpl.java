@@ -1,9 +1,9 @@
 package com.example.admin.service.country;
 
-import com.example.admin.DTO.CountryDTO;
+import com.example.admin.dto.country.CountryDTO;
+import com.example.admin.dto.country.CountryRequest;
 import com.example.admin.mapper.CountryMapper;
 import com.example.admin.model.Country;
-import com.example.admin.model.Genre;
 import com.example.admin.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,8 +19,9 @@ public class CountryServiceImpl implements CountryService{
     private final CountryRepository countryRepository;
 
     @Override
-    public Country addCountry(CountryDTO countryDTO) {
-        return countryRepository.save(new Country(countryDTO.getCountryName()));
+    public CountryDTO addCountry(CountryRequest countryRequest) {
+        Country country = countryMapper.create(countryRequest);
+        return countryMapper.mapToDTO(countryRepository.save(country));
     }
 
     @Override
@@ -29,15 +30,14 @@ public class CountryServiceImpl implements CountryService{
     }
 
     @Override
-    public void updateCountry(long id, CountryDTO countryDTO) {
-        countryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Country with id:{" + id + "} does not exist"));
-        Country updatedCountry = countryMapper.dtoToCountry(countryDTO);
-        countryRepository.save(updatedCountry);
+    public CountryDTO updateCountry(long id, CountryRequest countryRequest) {
+        Country country = countryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Country with id:{" + id + "} does not exist"));
+        return countryMapper.mapToDTO(countryRepository.save(countryMapper.update(country, countryRequest)));
     }
 
     @Override
-    public Country getCountryById(long id) {
-        return countryRepository.getById(id);
+    public CountryDTO findCountryById(long id) {
+        return countryMapper.mapToDTO(countryRepository.getById(id));
     }
 
     @Override

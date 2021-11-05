@@ -27,7 +27,7 @@
         <flyway.user>postgres</flyway.user>
         <flyway.password>postgres</flyway.password>
         <flyway.version>7.10.0</flyway.version>
-        <springdoc.version>1.5.10</springdoc.version>
+        <springdoc.version>1.5.2</springdoc.version>
     </properties>
 
 

@@ -1,8 +1,9 @@
 package com.example.admin.service.movie;
 
 
-import com.example.admin.DTO.MovieDTO;
+import com.example.admin.dto.movie.MovieDTO;
 import com.example.admin.criteria.MovieCriteria;
+import com.example.admin.dto.movie.MovieRequest;
 import com.example.admin.enums.ImageFormat;
 import com.example.admin.enums.VideoFormat;
 import com.example.admin.exception.FileFormatException;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.*;
 
@@ -34,15 +36,15 @@ public class MovieServiceImpl implements MovieService {
     private final DirectorRepository directorRepository;
 
     @Override
-    public Movie addMovie(MovieDTO movieDTO) {
-        Movie newMovie = movieMapper.dtoToMovie(movieDTO);
-        List<Genre> genreList = genreRepository.getGenreByIdIn(movieDTO.getGenresIds());
-        List<Country> countryList = countryRepository.getCountryByIdIn(movieDTO.getCountriesIds());
-        List<Director> directorList = directorRepository.getDirectorByIdIn(movieDTO.getDirectorsId());
+    public MovieDTO addMovie(MovieRequest movieRequest) {
+        Movie newMovie = movieMapper.create(movieRequest);
+        List<Genre> genreList = genreRepository.getGenreByIdIn(movieRequest.getGenresIds());
+        List<Country> countryList = countryRepository.getCountryByIdIn(movieRequest.getCountriesIds());
+        List<Director> directorList = directorRepository.getDirectorByIdIn(movieRequest.getDirectorsId());
         newMovie.setDirectors(directorList);
         newMovie.setGenres(genreList);
         newMovie.setCountries(countryList);
-        return movieRepository.save(newMovie);
+        return movieMapper.mapToDTO(movieRepository.save(newMovie));
     }
 
     @Override
@@ -51,20 +53,19 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void updateMovieById(long id, MovieDTO movieDTO) {
+    public MovieDTO updateMovieById(long id, MovieRequest movieRequest) {
         var movie = movieRepository.
                 findById(id).
                 orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + id + "} does not exist"));
-        Movie updatedMovie = movieMapper.dtoToMovie(movieDTO);
-        updatedMovie.setCountries(countryRepository.getCountryByIdIn(movieDTO.getCountriesIds()));
-        updatedMovie.setGenres(genreRepository.getGenreByIdIn(movieDTO.getGenresIds()));
-        updatedMovie.setId(movie.getId());
-        movieRepository.save(updatedMovie);
+        movie.setCountries(countryRepository.getCountryByIdIn(movieRequest.getCountriesIds()));
+        movie.setGenres(genreRepository.getGenreByIdIn(movieRequest.getGenresIds()));
+        return movieMapper.mapToDTO(movieRepository.save(movieMapper.update(movie, movieRequest)));
     }
 
     @Override
-    public Movie getMovieById(long id) {
-        return movieRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + id + "} does not exist"));
+    public MovieDTO getMovieById(long id) {
+        movieRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + id + "} does not exist"));
+        return movieMapper.mapToDTO(movieRepository.getById(id));
     }
 
     @Override
@@ -73,6 +74,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    @Transactional
     public Movie addImage(Long movieId, MultipartFile multipartFile) throws IOException {
         var movie = movieRepository.findById(movieId).orElseThrow();
         var image = new Image();
@@ -102,6 +104,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    @Transactional
     public void deleteImage(Long imageId) {
         if (!imageRepository.existsById(imageId)) {
             throw new NoSuchElementException();
@@ -111,6 +114,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    @Transactional
     public Movie addVideo(Long movieId, MultipartFile multipartFile) throws IOException {
         var movie = movieRepository.findById(movieId).orElseThrow();
         var video = new Video();
@@ -140,6 +144,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    @Transactional
     public void deleteVideo(Long videoId) {
         if (!imageRepository.existsById(videoId)) {
             throw new NoSuchElementException();

@@ -1,26 +1,19 @@
 package com.example.admin.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString
 @Table(name = "countries")
-public class Country {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Country extends BaseEntity{
 
     @Column(name = "country_name")
     private String countryName;
 
-    public Country(String countryName) {
-        this.countryName = countryName;
-    }
 }

@@ -2,22 +2,18 @@ package com.example.admin.model;
 
 
 import com.example.admin.enums.ImageFormat;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@ToString
 @Table(name = "images")
-public class Image {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Image extends BaseEntity {
 
     @Column(name = "image_name")
     private String imageName;

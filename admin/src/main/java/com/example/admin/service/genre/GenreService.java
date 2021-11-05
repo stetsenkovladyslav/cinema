@@ -1,19 +1,20 @@
 package com.example.admin.service.genre;
 
-import com.example.admin.DTO.GenreDTO;
+import com.example.admin.dto.genre.GenreDTO;
+import com.example.admin.dto.genre.GenreRequest;
 import com.example.admin.model.Genre;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface GenreService {
 
-    Genre addGenre(GenreDTO genreDTO);
+    GenreDTO addGenre(GenreRequest genreRequest);
 
     void deleteGenreById(long id);
 
-    void updateGenre(long id, GenreDTO genreDTO);
+    GenreDTO updateGenre(long id, GenreRequest genreRequest);
 
-    Genre getGenreById(long id);
+    GenreDTO getGenreById(long id);
 
     Page<Genre> getAllGenres(Pageable pageable);
 }

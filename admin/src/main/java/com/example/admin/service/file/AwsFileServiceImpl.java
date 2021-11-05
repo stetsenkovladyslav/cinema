@@ -27,6 +27,7 @@ public class AwsFileServiceImpl implements AwsFileService {
     public void upload(String key, InputStream inputStream, long size) throws IOException {
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key,
                 String.valueOf(RequestBody.fromInputStream(inputStream, size)));
+        s3Client.putObject(putObjectRequest);
         inputStream.close();
     }
 

@@ -1,6 +1,7 @@
 package com.example.admin.service.genre;
 
-import com.example.admin.DTO.GenreDTO;
+import com.example.admin.dto.genre.GenreDTO;
+import com.example.admin.dto.genre.GenreRequest;
 import com.example.admin.mapper.GenreMapper;
 import com.example.admin.model.Genre;
 import com.example.admin.repository.GenreRepository;
@@ -18,10 +19,10 @@ public class GenreServiceImpl implements GenreService{
     private final GenreRepository genreRepository;
     private final GenreMapper genreMapper;
 
-
     @Override
-    public Genre addGenre(GenreDTO genreDTO) {
-        return genreRepository.save(new Genre(genreDTO.getGenreName()));
+    public GenreDTO addGenre(GenreRequest genreRequest) {
+        Genre genre = genreMapper.create(genreRequest);
+        return genreMapper.mapToDTO(genreRepository.save(genre));
     }
 
     @Override
@@ -30,15 +31,14 @@ public class GenreServiceImpl implements GenreService{
     }
 
     @Override
-    public void updateGenre(long id, GenreDTO genreDTO) {
-        genreRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Genre with id:{" + id + "} does not exist"));
-        Genre updatedGenre = genreMapper.dtoToGenre(genreDTO);
-        genreRepository.save(updatedGenre);
+    public  GenreDTO updateGenre(long id, GenreRequest genreRequest) {
+        Genre genre = genreRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Genre with id:{" + id + "} does not exist"));
+        return genreMapper.mapToDTO(genreRepository.save(genreMapper.update(genre, genreRequest)));
     }
 
     @Override
-    public Genre getGenreById(long id) {
-        return genreRepository.getById(id);
+    public GenreDTO getGenreById(long id) {
+        return genreMapper.mapToDTO(genreRepository.getById(id));
     }
 
     @Override

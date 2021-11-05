@@ -1,8 +1,9 @@
 package com.example.admin.service.movie;
 
 
-import com.example.admin.DTO.MovieDTO;
+import com.example.admin.dto.movie.MovieDTO;
 import com.example.admin.criteria.MovieCriteria;
+import com.example.admin.dto.movie.MovieRequest;
 import com.example.admin.model.Movie;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
@@ -15,13 +16,13 @@ import java.util.Optional;
 
 public interface MovieService {
 
-    Movie addMovie(MovieDTO movieDTO);
+    MovieDTO addMovie(MovieRequest movieRequest);
 
     void deleteMovieById(long id);
 
-    void updateMovieById(long id, MovieDTO movieDTO);
+    MovieDTO updateMovieById(long id, MovieRequest movieRequest);
 
-    Movie getMovieById(long id);
+    MovieDTO getMovieById(long id);
 
     Page<Movie> getAllMovies(Pageable pageable, MovieCriteria movieCriteria);
 

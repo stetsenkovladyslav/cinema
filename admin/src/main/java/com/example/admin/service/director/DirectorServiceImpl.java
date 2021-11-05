@@ -1,6 +1,7 @@
 package com.example.admin.service.director;
 
-import com.example.admin.DTO.DirectorDTO;
+import com.example.admin.dto.director.DirectorDTO;
+import com.example.admin.dto.director.DirectorRequest;
 import com.example.admin.mapper.DirectorMapper;
 import com.example.admin.model.Director;
 import com.example.admin.repository.DirectorRepository;
@@ -20,8 +21,10 @@ public class DirectorServiceImpl implements DirectorService{
 
 
     @Override
-    public Director addDirector(DirectorDTO directorDTO) {
-        return directorRepository.save(new Director(directorDTO.getDirectorName()));    }
+    public DirectorDTO addDirector(DirectorRequest directorRequest) {
+        Director director = directorMapper.create(directorRequest);
+        return directorMapper.mapToDTO(directorRepository.save(director));
+    }
 
     @Override
     public void deleteDirectorById(long id) {
@@ -30,15 +33,15 @@ public class DirectorServiceImpl implements DirectorService{
     }
 
     @Override
-    public void updateDirectorById(long id, DirectorDTO directorDTO) {
-        directorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Director with id:{" + id + "} does not exist"));
-        Director updatedDirector = directorMapper.dtoToDirector(directorDTO);
-        directorRepository.save(updatedDirector);
+    public DirectorDTO updateDirectorById(long id, DirectorRequest directorRequest) {
+        Director director = directorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Director with id:{" + id + "} does not exist"));
+        return directorMapper.mapToDTO(directorRepository.save(directorMapper.update(director, directorRequest)));
+
     }
 
     @Override
-    public Director getDirectorById(long id) {
-        return directorRepository.getById(id);
+    public DirectorDTO getDirectorById(long id) {
+        return directorMapper.mapToDTO(directorRepository.getById(id));
     }
 
     @Override

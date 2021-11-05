@@ -1,6 +1,8 @@
 package com.example.admin.service.director;
 
-import com.example.admin.DTO.DirectorDTO;
+import com.example.admin.dto.director.DirectorDTO;
+import com.example.admin.dto.director.DirectorRequest;
+import com.example.admin.dto.genre.GenreDTO;
 import com.example.admin.model.Director;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,13 +10,13 @@ import org.springframework.data.domain.Pageable;
 public interface DirectorService {
 
 
-    Director addDirector(DirectorDTO directorDTO);
+    DirectorDTO addDirector(DirectorRequest directorRequest);
 
     void deleteDirectorById(long id);
 
-    void updateDirectorById(long id, DirectorDTO directorDTO);
+    DirectorDTO updateDirectorById(long id, DirectorRequest directorRequest);
 
-    Director getDirectorById(long id);
+    DirectorDTO getDirectorById(long id);
 
     Page<Director> getAllDirectors(Pageable pageable);
 }

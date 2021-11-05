@@ -1,15 +1,16 @@
 package com.example.admin.controller.genre;
 
 
-import com.example.admin.DTO.GenreDTO;
+import com.example.admin.dto.genre.GenreDTO;
+import com.example.admin.dto.genre.GenreRequest;
 import com.example.admin.mapper.GenreMapper;
 import com.example.admin.model.Genre;
 import com.example.admin.service.genre.GenreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,18 +24,12 @@ public class GenreController {
     private final GenreService genreService;
     private final GenreMapper genreMapper;
 
-    @PostMapping(
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE
-    )
-    ResponseEntity<GenreDTO> createGenre(@RequestBody @Valid GenreDTO genreDTO) {
-        Genre newGenre = genreService.addGenre(genreDTO);
-        return ResponseEntity.ok(genreMapper.toDTO(newGenre));
+    @PostMapping
+    GenreDTO createGenre(@RequestBody @Validated GenreRequest genreRequest) {
+        return genreService.addGenre(genreRequest);
     }
 
-    @GetMapping(
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @GetMapping
     ResponseEntity<Page<GenreDTO>> getAllGenres(Pageable pageable) {
         Page<Genre> allGenres = genreService.getAllGenres(pageable);
         if (allGenres.isEmpty()) {
@@ -43,36 +38,25 @@ public class GenreController {
         return ResponseEntity.ok(allGenres.map(genreMapper::toDTO));
     }
 
-    @GetMapping(
-            value = "/{id}",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    ResponseEntity<GenreDTO> getGenre(
+    @GetMapping(value = "/{id}")
+    GenreDTO getGenre(
             @PathVariable @Valid @Positive(message = "Value must be higher than 0") Long id
     ) {
-        Genre genreById = genreService.getGenreById(id);
-        return ResponseEntity.ok(genreMapper.toDTO(genreById));
+        return genreService.getGenreById(id);
     }
 
-    @PatchMapping(
-            value = "/{id}",
-            consumes = MediaType.APPLICATION_JSON_VALUE
-    )
-    ResponseEntity<?> updateGenre(
+    @PatchMapping(value = "/{id}")
+    GenreDTO updateGenre(
             @PathVariable @Valid @Positive(message = "Value must be higher than 0") Long id,
-            @RequestBody @Valid GenreDTO genreDTO
+            @RequestBody @Valid GenreRequest genreRequest
     ) {
-        genreService.updateGenre(id, genreDTO);
-        return ResponseEntity.ok().build();
+         return genreService.updateGenre(id, genreRequest);
     }
 
-    @DeleteMapping(
-            value = "/{id}"
-    )
-    ResponseEntity<?> deleteGenre(
+    @DeleteMapping(value = "/{id}")
+    void deleteGenre(
             @PathVariable @Valid @Positive(message = "Value must be higher than 0") Long id
     ) {
         genreService.deleteGenreById(id);
-        return ResponseEntity.ok().build();
     }
 }

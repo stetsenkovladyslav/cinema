@@ -1,24 +1,19 @@
 package com.example.admin.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "directors")
 @NoArgsConstructor
-public class Director {
+@AllArgsConstructor
+public class Director extends BaseEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Column(name = "director_name")
     private String directorName;
-
-    public Director(String directorName) {
-        this.directorName = directorName;
-    }
 }

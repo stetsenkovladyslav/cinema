@@ -1,6 +1,6 @@
 package com.example.admin.controller;
 
-import com.example.admin.DTO.ErrorMessage;
+import com.example.admin.dto.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

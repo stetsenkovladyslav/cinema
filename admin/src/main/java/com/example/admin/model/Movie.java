@@ -1,9 +1,6 @@
 package com.example.admin.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.apache.commons.codec.language.bm.Rule;
 
 import javax.persistence.*;
@@ -11,16 +8,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "movies")
-public class Movie {
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Movie extends BaseEntity{
 
     @Column(name = "title")
     private String movieTitle;

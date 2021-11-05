@@ -6,15 +6,3 @@ CREATE TABLE IF NOT EXISTS movies
     date_added    DATE DEFAULT NOW() NOT NULL,
     date_release DATE DEFAULT NOW() NOT NULL
 );
-
-
-
-
-
-
-
-
-
-
-
-

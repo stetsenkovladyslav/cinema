@@ -1,7 +1,6 @@
 package com.example.admin.model;
 
 import lombok.*;
-import org.apache.commons.codec.language.bm.Rule;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -75,6 +74,20 @@ public class Movie extends BaseEntity{
     )
     @ToString.Exclude
     private List<Image> images;
+
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "rate_id", nullable = false)
+//    private Rate rate;
+//
+//    @OneToMany
+//    @JoinTable(
+//            name = "movies_comments",
+//            joinColumns = @JoinColumn(name = "movie_id"),
+//            inverseJoinColumns = @JoinColumn(name = "comment_id")
+//    )
+//    @ToString.Exclude
+//    private List<Comment> comments;
+
 
     public void addImage(Image image) {
         images.add(image);

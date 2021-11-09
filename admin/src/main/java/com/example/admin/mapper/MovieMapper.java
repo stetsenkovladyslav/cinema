@@ -8,18 +8,12 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface MovieMapper extends CrudMapper<Movie, MovieDTO, MovieRequest, MovieRequest> {
 
-    MovieDTO toDTO(Movie movie);
 
     Movie dtoToMovie(MovieDTO movieDTO);
+//
+//    @Mapping(target = "directorsIds", source = "movie.directors", qualifiedByName = "mapEntityId")
+//    @Mapping(target = "genresIds", source = "movie.genres", qualifiedByName = "mapEntityId")
+//    @Mapping(target = "countriesIds", source = "movie.countries", qualifiedByName = "mapEntityId")
+    MovieDTO toDTO(Movie movie);
 
-//    default MovieDTO mapToCreateMovie(Movie movie) {
-//        if (movie == null) {
-//            return null;
-//        }
-//        MovieDTO movieDTO = new MovieDTO();
-//        movieDTO.setGenresIds(movie.getGenres());
-//        movieDTO.setDirectorsId(movie.getDirectors());
-//        movieDTO.setCountriesIds(movie.getCountries());
-//        return movieDTO;
-//    }
 }

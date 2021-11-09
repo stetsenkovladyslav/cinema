@@ -2,14 +2,17 @@ package com.example.admin.model;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-@Entity
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Getter
 @Setter
 @ToString
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "countries")
 public class Country extends BaseEntity{
 

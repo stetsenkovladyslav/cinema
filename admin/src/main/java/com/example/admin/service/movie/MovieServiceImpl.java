@@ -11,8 +11,8 @@ import com.example.admin.mapper.MovieMapper;
 import com.example.admin.model.*;
 import com.example.admin.repository.*;
 import com.example.admin.service.file.AwsFileService;
+import com.example.admin.service.user.comment.CommentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 @Service
@@ -34,18 +35,34 @@ public class MovieServiceImpl implements MovieService {
     private final ImageRepository imageRepository;
     private final VideoRepository videoRepository;
     private final DirectorRepository directorRepository;
+    private final CommentService commentService;
 
     @Override
     public MovieDTO addMovie(MovieRequest movieRequest) {
-        Movie newMovie = movieMapper.create(movieRequest);
-        List<Genre> genreList = genreRepository.getGenreByIdIn(movieRequest.getGenresIds());
-        List<Country> countryList = countryRepository.getCountryByIdIn(movieRequest.getCountriesIds());
-        List<Director> directorList = directorRepository.getDirectorByIdIn(movieRequest.getDirectorsId());
-        newMovie.setDirectors(directorList);
-        newMovie.setGenres(genreList);
-        newMovie.setCountries(countryList);
-        return movieMapper.mapToDTO(movieRepository.save(newMovie));
+        Movie movie = movieMapper.create(movieRequest);
+        List<Director> directorsIds = directorRepository.getDirectorByIdIn(movieRequest.getDirectorsIds());
+        List<Genre> genresIds = genreRepository.getGenreByIdIn(movieRequest.getGenresIds());
+        List<Country> countriesIds = countryRepository.getCountryByIdIn(movieRequest.getCountriesIds());
+        movie.setCountries(countriesIds);
+        movie.setGenres(genresIds);
+        movie.setDirectors(directorsIds);
+        return movieMapper.mapToDTO(movieRepository.save(movie));
     }
+
+//    @Override
+//    public MovieDTO addComment(long id, CommentRequest commentRequest){
+//        var movie = movieRepository.
+//                findById(id).
+//                orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + id + "} does not exist"));
+//        var comment  = commentService.createComment(commentRequest);
+//        var movieComments = movie.getComments();
+//        if (movieComments == null) {
+//            movie.setComments(new ArrayList<>());
+//        }
+//        movie.getComments().add(comment);
+//        return movieMapper.mapToDTO(movieRepository.save(movie, id));
+//    }
+
 
     @Override
     public void deleteMovieById(long id) {
@@ -59,6 +76,7 @@ public class MovieServiceImpl implements MovieService {
                 orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + id + "} does not exist"));
         movie.setCountries(countryRepository.getCountryByIdIn(movieRequest.getCountriesIds()));
         movie.setGenres(genreRepository.getGenreByIdIn(movieRequest.getGenresIds()));
+        movie.setDirectors(directorRepository.getDirectorByIdIn(movieRequest.getDirectorsIds()));
         return movieMapper.mapToDTO(movieRepository.save(movieMapper.update(movie, movieRequest)));
     }
 
@@ -75,8 +93,8 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     @Transactional
-    public Movie addImage(Long movieId, MultipartFile multipartFile) throws IOException {
-        var movie = movieRepository.findById(movieId).orElseThrow();
+    public Movie addImage(Long id, MultipartFile multipartFile) throws IOException {
+        var movie = movieRepository.findById(id).orElseThrow();
         var image = new Image();
         var originalFilename = multipartFile.getOriginalFilename();
         if (originalFilename != null) {
@@ -99,8 +117,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Optional<InputStreamResource> getImage(Long imageId) {
-        return awsFileService.download(imageId.toString());
+    public InputStream getImage(Long id) {
+        return awsFileService.download(id.toString());
     }
 
     @Override
@@ -110,7 +128,7 @@ public class MovieServiceImpl implements MovieService {
             throw new NoSuchElementException();
         }
         imageRepository.deleteById(imageId);
-        awsFileService.deleteAll(imageId.toString());
+        awsFileService.delete(imageId.toString());
     }
 
     @Override
@@ -139,18 +157,35 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Optional<InputStreamResource> getVideo(Long videoId) {
+    public InputStream getVideo(Long videoId) {
         return awsFileService.download(videoId.toString());
     }
 
     @Override
     @Transactional
     public void deleteVideo(Long videoId) {
-        if (!imageRepository.existsById(videoId)) {
+        if (!videoRepository.existsById(videoId)) {
             throw new NoSuchElementException();
         }
-        imageRepository.deleteById(videoId);
-        awsFileService.deleteAll(videoId.toString());
+        videoRepository.deleteById(videoId);
+        awsFileService.delete(videoId.toString());
     }
+
+
+//
+//    @Override
+//    public Movie addReview(UUID id, ReviewDto reviewDto) {
+//        var movie = movieRepo.findById(id).orElseThrow(EntityNotFoundException::new);
+//        var review = reviewService.create(reviewDto);
+//        var movieReviews = movie.getReviews();
+//        if (movieReviews == null) {
+//            movie.setReviews(new ArrayList<>());
+//        }
+//        movie.getReviews().add(review);
+//        movie = movieRepo.save(movie);
+//        return movie;
+//    }
+
+
 
 }

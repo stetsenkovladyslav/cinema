@@ -7,7 +7,6 @@ import com.example.admin.mapper.MovieMapper;
 import com.example.admin.model.Movie;
 import com.example.admin.service.movie.MovieService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -18,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.io.IOException;
-import java.util.Optional;
+import java.io.InputStream;
 
 @RestController
 @RequestMapping("/movies")
@@ -27,6 +26,14 @@ public class MovieController {
 
     private final MovieService movieService;
     private final MovieMapper movieMapper;
+//    private final CommentService commentService;
+
+//    @PostMapping(value = "/comment/{id}")
+//    MovieDTO addComment(
+//            @PathVariable @Valid @Positive(message = "Value must be higher than 0") Long id,
+//            @RequestBody @Valid CommentRequest commentRequest) {
+//        return movieService.addComment(id, commentRequest);
+//    }
 
     @PostMapping
     MovieDTO createMovie(@RequestBody @Valid MovieRequest movieRequest) {
@@ -60,13 +67,13 @@ public class MovieController {
     }
 
 
-    @PostMapping(value = "/image/{movieId}",
+    @PostMapping(value = "/image/{id}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Movie> addImage(
-            @PathVariable Long movieId,
+            @PathVariable Long id,
             @RequestBody MultipartFile multipartFile
     ) throws IOException {
-        return ResponseEntity.ok(movieService.addImage(movieId, multipartFile));
+        return ResponseEntity.ok(movieService.addImage(id, multipartFile));
     }
 
     @PostMapping(value = "/video/{movieId}",
@@ -81,17 +88,17 @@ public class MovieController {
     @GetMapping(value = "/image/{id}",
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
     )
-    public ResponseEntity<Optional<InputStreamResource>> getImage(@PathVariable Long id) {
-        return ResponseEntity.ok(movieService.getImage(id));
+    public InputStream getImage(@PathVariable Long id) {
+        return movieService.getImage(id);
     }
 
     @GetMapping(
             value = "/video/{id}",
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
     )
-    public ResponseEntity<Optional<InputStreamResource>>
+    public InputStream
     getVideo(@PathVariable Long id) {
-        return ResponseEntity.ok(movieService.getVideo(id));
+        return movieService.getVideo(id);
     }
 
     @DeleteMapping(value = "/image/{id}")

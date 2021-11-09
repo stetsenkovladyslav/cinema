@@ -1,10 +1,11 @@
 package com.example.admin.service.genre;
 
+
+import com.example.admin.repository.GenreRepository;
 import com.example.admin.dto.genre.GenreDTO;
 import com.example.admin.dto.genre.GenreRequest;
 import com.example.admin.mapper.GenreMapper;
 import com.example.admin.model.Genre;
-import com.example.admin.repository.GenreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

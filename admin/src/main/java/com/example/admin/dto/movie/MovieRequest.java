@@ -23,7 +23,7 @@ public class MovieRequest {
 
     @NotNull(message = "The value should not be null")
     @NotEmpty(message = "Movie must have at list 1 director")
-    private List<Long> directorsId;
+    private List<Long> directorsIds;
 
     @NotNull(message = "The value should not be null")
     @NotEmpty(message = "Movie must have at list 1 genre")

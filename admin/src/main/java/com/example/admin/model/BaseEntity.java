@@ -24,6 +24,4 @@ public abstract class BaseEntity {
     @Column(name = "update_at")
     @UpdateTimestamp
     protected LocalDate updateAt;
-
-
 }

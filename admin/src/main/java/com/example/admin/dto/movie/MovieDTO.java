@@ -1,5 +1,6 @@
 package com.example.admin.dto.movie;
 
+import com.example.admin.model.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -55,7 +56,7 @@ public class MovieDTO {
 
 //    @NotNull
 //    private Rate rate;
-//
-//    private List<Comment> commentsIds;
+
+    private List<Comment> commentsIds;
 
 }

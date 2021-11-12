@@ -1,12 +1,14 @@
 package com.example.admin.service.movie;
 
 
-import com.example.admin.dto.movie.MovieDTO;
 import com.example.admin.criteria.MovieCriteria;
+import com.example.admin.dto.comment.CommentRequest;
+import com.example.admin.dto.movie.MovieDTO;
 import com.example.admin.dto.movie.MovieRequest;
 import com.example.admin.enums.ImageFormat;
 import com.example.admin.enums.VideoFormat;
 import com.example.admin.exception.FileFormatException;
+import com.example.admin.exception.InvalidRatingValueException;
 import com.example.admin.mapper.MovieMapper;
 import com.example.admin.model.*;
 import com.example.admin.repository.*;
@@ -22,7 +24,10 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +41,7 @@ public class MovieServiceImpl implements MovieService {
     private final VideoRepository videoRepository;
     private final DirectorRepository directorRepository;
     private final CommentService commentService;
+    private final RateRepository rateRepository;
 
     @Override
     public MovieDTO addMovie(MovieRequest movieRequest) {
@@ -49,20 +55,19 @@ public class MovieServiceImpl implements MovieService {
         return movieMapper.mapToDTO(movieRepository.save(movie));
     }
 
-//    @Override
-//    public MovieDTO addComment(long id, CommentRequest commentRequest){
-//        var movie = movieRepository.
-//                findById(id).
-//                orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + id + "} does not exist"));
-//        var comment  = commentService.createComment(commentRequest);
-//        var movieComments = movie.getComments();
-//        if (movieComments == null) {
-//            movie.setComments(new ArrayList<>());
-//        }
-//        movie.getComments().add(comment);
-//        return movieMapper.mapToDTO(movieRepository.save(movie, id));
-//    }
-
+    @Override
+    public MovieDTO addComment(long id, CommentRequest commentRequest) {
+        var movie = movieRepository.
+                findById(id).
+                orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + id + "} does not exist"));
+        var comment = commentService.createComment(commentRequest);
+        var movieComments = movie.getComments();
+        if (movieComments == null) {
+            movie.setComments(new ArrayList<>());
+        }
+        movie.getComments().add(comment);
+        return movieMapper.mapToDTO(movieRepository.save(movie));
+    }
 
     @Override
     public void deleteMovieById(long id) {
@@ -171,21 +176,33 @@ public class MovieServiceImpl implements MovieService {
         awsFileService.delete(videoId.toString());
     }
 
+    @Override
+    public Rate addRating(Long movieId, int rating) throws IllegalArgumentException, InvalidRatingValueException {
+        validateRating(rating);
+        var movie = movieRepository.
+                findById(movieId).
+                orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + movieId + "} does not exist"));
 
-//
-//    @Override
-//    public Movie addReview(UUID id, ReviewDto reviewDto) {
-//        var movie = movieRepo.findById(id).orElseThrow(EntityNotFoundException::new);
-//        var review = reviewService.create(reviewDto);
-//        var movieReviews = movie.getReviews();
-//        if (movieReviews == null) {
-//            movie.setReviews(new ArrayList<>());
-//        }
-//        movie.getReviews().add(review);
-//        movie = movieRepo.save(movie);
-//        return movie;
-//    }
+        Optional<Rate> optionalRate = rateRepository.findById(movieId);
+        Rate rate;
+        if (optionalRate.isEmpty()) {
+            rate = new Rate(movie.getId(), rating, 1);
+        } else {
+            rate = optionalRate.get();
+            rate.setValue(calculateNewRatingValue(rate.getRateCount(), rate.getValue(), rating));
+            rate.setRateCount(rate.getRateCount() + 1);
+        }
+        rateRepository.save(rate);
+        return rate;
+    }
 
+    private double calculateNewRatingValue(long currentNumberOfVotes, double currentRating, int newRatingValue) {
+        return (currentRating * currentNumberOfVotes + newRatingValue) / (currentNumberOfVotes + 1);
+    }
 
-
+    private void validateRating(int rating) throws InvalidRatingValueException {
+        if (rating < 1 || rating > 10) {
+            throw new InvalidRatingValueException();
+        }
+    }
 }

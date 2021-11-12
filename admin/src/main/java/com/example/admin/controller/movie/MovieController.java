@@ -1,14 +1,19 @@
 package com.example.admin.controller.movie;
 
 import com.example.admin.criteria.MovieCriteria;
+import com.example.admin.dto.comment.CommentRequest;
 import com.example.admin.dto.movie.MovieDTO;
 import com.example.admin.dto.movie.MovieRequest;
+import com.example.admin.dto.rate.AddRateDTO;
+import com.example.admin.exception.InvalidRatingValueException;
 import com.example.admin.mapper.MovieMapper;
 import com.example.admin.model.Movie;
+import com.example.admin.model.Rate;
 import com.example.admin.service.movie.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,14 +31,25 @@ public class MovieController {
 
     private final MovieService movieService;
     private final MovieMapper movieMapper;
-//    private final CommentService commentService;
 
-//    @PostMapping(value = "/comment/{id}")
-//    MovieDTO addComment(
-//            @PathVariable @Valid @Positive(message = "Value must be higher than 0") Long id,
-//            @RequestBody @Valid CommentRequest commentRequest) {
-//        return movieService.addComment(id, commentRequest);
-//    }
+    @PostMapping(value = "/comment/{id}")
+    MovieDTO addComment(
+            @PathVariable @Valid @Positive(message = "Value must be higher than 0") Long id,
+            @RequestBody @Valid CommentRequest commentRequest) {
+        return movieService.addComment(id, commentRequest);
+    }
+
+    @PostMapping(path = "/movies/{id}/rating",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Rate> addRatingToMovie(
+            @PathVariable("id") Long movieId,
+            @RequestBody AddRateDTO addRatingDto
+    ) throws InvalidRatingValueException {
+        Rate rate = movieService.addRating(movieId, addRatingDto.getRating());
+        return new ResponseEntity<>(rate, HttpStatus.OK);
+    }
 
     @PostMapping
     MovieDTO createMovie(@RequestBody @Valid MovieRequest movieRequest) {

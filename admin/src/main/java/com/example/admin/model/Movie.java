@@ -75,18 +75,18 @@ public class Movie extends BaseEntity{
     @ToString.Exclude
     private List<Image> images;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "rate_id", nullable = false)
-//    private Rate rate;
-//
-//    @OneToMany
-//    @JoinTable(
-//            name = "movies_comments",
-//            joinColumns = @JoinColumn(name = "movie_id"),
-//            inverseJoinColumns = @JoinColumn(name = "comment_id")
-//    )
-//    @ToString.Exclude
-//    private List<Comment> comments;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "rate_id")
+    private Rate rate;
+
+    @OneToMany
+    @JoinTable(
+            name = "movies_comments",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "comment_id")
+    )
+    @ToString.Exclude
+    private List<Comment> comments;
 
 
     public void addImage(Image image) {

@@ -1,10 +1,13 @@
 package com.example.admin.service.movie;
 
 
+import com.example.admin.dto.comment.CommentRequest;
 import com.example.admin.dto.movie.MovieDTO;
 import com.example.admin.criteria.MovieCriteria;
 import com.example.admin.dto.movie.MovieRequest;
+import com.example.admin.exception.InvalidRatingValueException;
 import com.example.admin.model.Movie;
+import com.example.admin.model.Rate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,5 +40,6 @@ public interface MovieService {
 
     void deleteVideo(Long videoId);
 
-//    MovieDTO addComment(long id, CommentRequest commentRequest);
+    MovieDTO addComment(long id, CommentRequest commentRequest);
+    Rate addRating(Long movieId, int rating) throws InvalidRatingValueException;
 }

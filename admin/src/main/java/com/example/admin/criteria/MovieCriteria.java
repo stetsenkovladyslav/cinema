@@ -21,10 +21,12 @@ public class MovieCriteria {
     private String genre;
     private String countryName;
     private String directorName;
+    private String name;
 
     public Specification<Movie> buildCriteria() {
         return ((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
+
             if (Objects.nonNull(genre)) {
                 ListJoin<Movie, Genre> joinedGenreList = root.joinList("genres");
                 predicates.add(criteriaBuilder.equal(joinedGenreList.get("genreName"), genre)

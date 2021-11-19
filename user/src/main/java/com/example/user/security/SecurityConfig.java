@@ -29,16 +29,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/swagger-ui.html");
         web.ignoring().antMatchers("/v3/api-docs/**");
         web.ignoring().antMatchers("/swagger.json");
+        web.ignoring().antMatchers("/activate");
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/users/register").anonymous()
-                .antMatchers("/users/login").anonymous()
-                .antMatchers("/users/new-admin").permitAll()
+                .antMatchers("/", "/register", "/login", "/activate/*").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

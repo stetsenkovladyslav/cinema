@@ -1,4 +1,4 @@
-package com.example.user;
+package com.example.user.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +20,6 @@ import java.util.List;
 @Table(name = "users")
 @NoArgsConstructor
 public class User extends BaseEntity implements UserDetails {
-
 
     @Column(name = "first_name")
     private String firstName;
@@ -44,10 +43,17 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "enabled")
     private boolean isEnabled;
 
-    public User(String firstName, String lastName, Role role) {
+    @Column(name = "code")
+    private String code;
+
+    @Column(name = "email")
+    private String email;
+
+    public User(String firstName, String lastName, Role role, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
+        this.email = email;
     }
 
     @Override

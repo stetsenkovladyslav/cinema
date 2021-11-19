@@ -17,6 +17,7 @@ spring:
     multipart:
       max-file-size: 1000000MB
       max-request-size: 10000000MB
+      file-size-threshold: 1000000MB
 server:
   port: 8080
   tomcat:

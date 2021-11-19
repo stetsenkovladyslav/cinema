@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS rates
 (
     id         serial PRIMARY KEY      NOT NULL,
-    value      numeric(4, 2)           not null,
+    value      numeric(4, 2)           NOT NULL,
     rate_count int                     not null check ( rate_count >= 0 ),
     create_at  TIMESTAMP DEFAULT NOW() NOT NULL,
     update_at  TIMESTAMP DEFAULT NOW() NOT NULL

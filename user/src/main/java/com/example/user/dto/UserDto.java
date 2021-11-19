@@ -1,5 +1,6 @@
-package com.example.user;
+package com.example.user.dto;
 
+import com.example.user.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -33,4 +34,8 @@ public class UserDto {
 
     @NotNull(message = "The value should not be null")
     private Role role;
+
+    @NotBlank(message = "Email field must not be empty")
+    @NotNull(message = "The value should not be null")
+    private String email;
 }

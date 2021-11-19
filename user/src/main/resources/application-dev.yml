@@ -14,10 +14,27 @@ spring:
     multipart:
       max-file-size: 1000000MB
       max-request-size: 10000000MB
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: cinema.root.root@gmail.com
+    password: xylemtvucnfkktpw
+    protocol: smtps
+
+mail:
+  debug: true
+
+#  facebook-api-key=688436255436617
+#  facebook-api-secret=8b47df4e6fb3e5fb2236d4179177e88a
+
 server:
-  port: 8081
+  port: 8082
   tomcat:
     relaxed-query-chars:   <, > ,[ ,\, ] ,^ ,`, {, |, }
+
+
+hostname:
+  localhost:${server.port}
 aws:
   s3-bucket: bucket
   localstack-url: http://${LOCALSTACK_URL:localhost}:4566

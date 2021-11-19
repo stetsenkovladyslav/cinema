@@ -14,7 +14,9 @@ import com.example.admin.model.*;
 import com.example.admin.repository.*;
 import com.example.admin.service.file.AwsFileService;
 import com.example.admin.service.user.comment.CommentService;
+import com.example.admin.service.user.rate.RateService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,7 +29,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +43,7 @@ public class MovieServiceImpl implements MovieService {
     private final DirectorRepository directorRepository;
     private final CommentService commentService;
     private final RateRepository rateRepository;
+    private final RateService rateService;
 
     @Override
     public MovieDTO addMovie(MovieRequest movieRequest) {
@@ -117,13 +119,13 @@ public class MovieServiceImpl implements MovieService {
             images.add(image);
             movie.setImages(images);
         }
-        awsFileService.upload(image.getId().toString(), multipartFile.getInputStream(), multipartFile.getSize());
+        awsFileService.upload(image.getId().toString(), multipartFile.getInputStream());
         return movieRepository.save(movie);
     }
 
     @Override
-    public InputStream getImage(Long id) {
-        return awsFileService.download(id.toString());
+    public InputStreamResource getImage(Long id) {
+        return awsFileService.download(id.toString()).orElseThrow();
     }
 
     @Override
@@ -133,7 +135,7 @@ public class MovieServiceImpl implements MovieService {
             throw new NoSuchElementException();
         }
         imageRepository.deleteById(imageId);
-        awsFileService.delete(imageId.toString());
+        awsFileService.deleteAll(imageId.toString());
     }
 
     @Override
@@ -157,13 +159,13 @@ public class MovieServiceImpl implements MovieService {
             videos.add(video);
             movie.setVideos(videos);
         }
-        awsFileService.upload(video.getId().toString(), multipartFile.getInputStream(), multipartFile.getSize());
+        awsFileService.upload(video.getId().toString(), multipartFile.getInputStream());
         return movieRepository.save(movie);
     }
 
     @Override
-    public InputStream getVideo(Long videoId) {
-        return awsFileService.download(videoId.toString());
+    public InputStreamResource getVideo(Long videoId) {
+        return awsFileService.download(videoId.toString()).orElseThrow();
     }
 
     @Override
@@ -173,36 +175,28 @@ public class MovieServiceImpl implements MovieService {
             throw new NoSuchElementException();
         }
         videoRepository.deleteById(videoId);
-        awsFileService.delete(videoId.toString());
+        awsFileService.deleteAll(videoId.toString());
     }
 
     @Override
     public Rate addRating(Long movieId, int rating) throws IllegalArgumentException, InvalidRatingValueException {
-        validateRating(rating);
+        rateService.validateRating(rating);
         var movie = movieRepository.
                 findById(movieId).
                 orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + movieId + "} does not exist"));
 
-        Optional<Rate> optionalRate = rateRepository.findById(movieId);
+        var optionalRate = rateRepository.findById(movieId);
         Rate rate;
         if (optionalRate.isEmpty()) {
-            rate = new Rate(movie.getId(), rating, 1);
+            rate = new Rate(movie.getId(), rating, 0);
         } else {
             rate = optionalRate.get();
-            rate.setValue(calculateNewRatingValue(rate.getRateCount(), rate.getValue(), rating));
+            rate.setValue(rateService.calculateNewRatingValue(rate.getRateCount(), rate.getValue(), rating));
             rate.setRateCount(rate.getRateCount() + 1);
         }
         rateRepository.save(rate);
         return rate;
     }
 
-    private double calculateNewRatingValue(long currentNumberOfVotes, double currentRating, int newRatingValue) {
-        return (currentRating * currentNumberOfVotes + newRatingValue) / (currentNumberOfVotes + 1);
-    }
 
-    private void validateRating(int rating) throws InvalidRatingValueException {
-        if (rating < 1 || rating > 10) {
-            throw new InvalidRatingValueException();
-        }
-    }
 }

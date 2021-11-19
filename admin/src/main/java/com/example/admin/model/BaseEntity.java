@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @MappedSuperclass
 @Getter
@@ -17,11 +18,11 @@ public abstract class BaseEntity {
     @Column(name = "id", updatable = false, nullable = false)
     protected Long id;
 
-    @Column(name = "create_at")
+    @Column(name = "create_at", updatable = false)
     @CreationTimestamp
-    protected LocalDate createAt;
+    protected LocalDateTime createAt;
 
     @Column(name = "update_at")
     @UpdateTimestamp
-    protected LocalDate updateAt;
+    protected LocalDateTime updateAt;
 }

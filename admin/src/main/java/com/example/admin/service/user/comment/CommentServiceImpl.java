@@ -13,16 +13,6 @@ public class CommentServiceImpl implements  CommentService{
     private final CommentRepository commentRepository;
     private final CommentMapper commentMapper;
 
-
-//
-//    @Override
-//    public Review create(ReviewDto reviewDto) {
-//        var review = new Review();
-//        modelMapper.map(reviewDto, review);
-//        review = reviewRepo.save(review);
-//        return review;
-//    }
-
     @Override
     public Comment createComment(CommentRequest commentRequest) {
         Comment comment = commentMapper.create(commentRequest);

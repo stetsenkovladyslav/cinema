@@ -17,8 +17,12 @@ import java.math.BigDecimal;
 public class Rate extends BaseEntity {
 
     @Column(name = "value", nullable = false, precision = 2, scale = 2)
-    private BigDecimal value;
+    private double value;
 
     @Column(name = "rate_count", nullable = false)
     private long rateCount;
+
+    public Rate(Long id, int rating, int i) {
+        super();
+    }
 }

@@ -27,6 +27,8 @@
         <flyway.password>postgres</flyway.password>
         <flyway.version>7.10.0</flyway.version>
         <springdoc.version>1.5.2</springdoc.version>
+        <aws.java.sdk.version>1.12.48</aws.java.sdk.version>
+
     </properties>
 
 
@@ -52,12 +54,6 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok-version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.example</groupId>
-                <artifactId>data</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
             </dependency>
         </dependencies>
 

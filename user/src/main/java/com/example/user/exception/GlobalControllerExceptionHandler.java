@@ -28,7 +28,7 @@
 //    public ResponseEntity<ErrorMessage> handleValidationExceptions(MethodArgumentNotValidException ex) {
 //        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 //                .body(new ErrorMessage()
-//                        .setMessage("Wrong data")
+//                        .setMessage("Wrong root")
 //                        .setStatus(HttpStatus.BAD_REQUEST.value())
 //                        .setTimestamp(Instant.now())
 //                        .setValidationErrors(

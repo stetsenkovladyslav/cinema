@@ -1,0 +1,14 @@
+package com.example.user.mapper;
+
+import com.example.root.model.BaseEntity;
+import org.mapstruct.Mapper;
+import org.mapstruct.Named;
+
+@Mapper(componentModel = "spring")
+
+public interface BaseMapper {
+    @Named("mapEntityId")
+    default <E extends BaseEntity> Long mapEntityId(E entity) {
+        return entity != null ? entity.getId() : null;
+    }
+}

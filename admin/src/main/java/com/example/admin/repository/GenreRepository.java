@@ -1,6 +1,6 @@
 package com.example.admin.repository;
 
-import com.example.data.model.Genre;
+import com.example.root.model.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

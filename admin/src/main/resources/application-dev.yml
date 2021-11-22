@@ -12,12 +12,21 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-
   servlet:
     multipart:
       max-file-size: 1000000MB
       max-request-size: 10000000MB
-      file-size-threshold: 1000000MB
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: cinema.root.root@gmail.com
+    password: xylemtvucnfkktpw
+    protocol: smtps
+mail:
+  debug: true
+
+hostname:
+  localhost:8082
 server:
   port: 8080
   tomcat:
@@ -26,3 +35,6 @@ aws:
   s3-bucket: bucket
   localstack-url: http://${LOCALSTACK_URL:localhost}:4566
 
+jwt:
+  token:
+    secret: ghshjs3672382h22j3h2

@@ -1,6 +1,6 @@
 package com.example.user.repository;
 
-import com.example.data.model.User;
+import com.example.root.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,11 +1,11 @@
 package com.example.user.controller;
 
-import com.example.data.dto.user.AuthenticationRequest;
-import com.example.data.dto.user.UserDto;
-import com.example.data.model.User;
+import com.example.root.dto.user.AuthenticationRequest;
+import com.example.root.dto.user.UserDto;
+import com.example.root.model.User;
 import com.example.user.security.JwtUtil;
-import com.example.user.service.AuthService;
-import com.example.user.service.UserService;
+import com.example.user.service.auth.AuthService;
+import com.example.user.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

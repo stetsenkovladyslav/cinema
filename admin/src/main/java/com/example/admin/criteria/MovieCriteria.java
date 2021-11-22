@@ -1,10 +1,10 @@
 package com.example.admin.criteria;
 
 
-import com.example.data.model.Country;
-import com.example.data.model.Director;
-import com.example.data.model.Genre;
-import com.example.data.model.Movie;
+import com.example.root.model.Country;
+import com.example.root.model.Director;
+import com.example.root.model.Genre;
+import com.example.root.model.Movie;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;

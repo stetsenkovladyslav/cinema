@@ -1,8 +1,8 @@
 package com.example.admin.service.genre;
 
-import com.example.data.dto.genre.GenreDTO;
-import com.example.data.dto.genre.GenreRequest;
-import com.example.data.model.Genre;
+import com.example.root.dto.genre.GenreDTO;
+import com.example.root.dto.genre.GenreRequest;
+import com.example.root.model.Genre;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -20,7 +20,7 @@ public class SwaggerConfig {
                 .components(new Components().addSecuritySchemes("bearer-jwt",
                         new io.swagger.v3.oas.models.security.SecurityScheme().type(io.swagger.v3.oas.models.security.SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
                                 .in(SecurityScheme.In.HEADER).name("Authorization")))
-                .info(new Info().title("App API").version("snapshot"))
+                .info(new Info().title("USER API").version("snapshot"))
                 .addSecurityItem(
                         new SecurityRequirement().addList("bearer-jwt", Arrays.asList("read", "write")));
     }

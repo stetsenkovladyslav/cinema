@@ -1,8 +1,8 @@
 package com.example.admin.service.director;
 
-import com.example.data.dto.director.DirectorDTO;
-import com.example.data.dto.director.DirectorRequest;
-import com.example.data.model.Director;
+import com.example.root.dto.director.DirectorDTO;
+import com.example.root.dto.director.DirectorRequest;
+import com.example.root.model.Director;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

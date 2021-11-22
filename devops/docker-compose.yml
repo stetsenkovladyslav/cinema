@@ -38,7 +38,7 @@ services:
     image: localstack/localstack:0.12.9.1
     environment:
       - SERVICES=s3
-      - DATA_DIR=/tmp/localstack/data
+      - DATA_DIR=/tmp/localstack/root
     volumes:
       - ./localstack:/tmp/localstack
     ports:

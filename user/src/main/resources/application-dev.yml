@@ -14,15 +14,6 @@ spring:
     multipart:
       max-file-size: 1000000MB
       max-request-size: 10000000MB
-  mail:
-    host: smtp.gmail.com
-    port: 465
-    username: cinema.root.root@gmail.com
-    password: xylemtvucnfkktpw
-    protocol: smtps
-
-mail:
-  debug: true
 
 #  facebook-api-key=688436255436617
 #  facebook-api-secret=8b47df4e6fb3e5fb2236d4179177e88a

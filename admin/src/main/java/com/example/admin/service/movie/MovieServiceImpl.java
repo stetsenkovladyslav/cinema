@@ -1,20 +1,15 @@
 package com.example.admin.service.movie;
 
-
 import com.example.admin.criteria.MovieCriteria;
-import com.example.data.dto.comment.CommentRequest;
-import com.example.data.dto.movie.MovieDTO;
-import com.example.data.dto.movie.MovieRequest;
-import com.example.data.enums.ImageFormat;
-import com.example.data.enums.VideoFormat;
-import com.example.data.exception.FileFormatException;
-import com.example.data.exception.InvalidRatingValueException;
 import com.example.admin.mapper.MovieMapper;
-import com.example.data.model.*;
 import com.example.admin.repository.*;
-import com.example.admin.service.file.AwsFileService;
-import com.example.admin.service.user.comment.CommentService;
-import com.example.admin.service.user.rate.RateService;
+import com.example.root.aws.AwsFileService;
+import com.example.root.dto.movie.MovieDTO;
+import com.example.root.dto.movie.MovieRequest;
+import com.example.root.enums.ImageFormat;
+import com.example.root.enums.VideoFormat;
+import com.example.root.exception.FileFormatException;
+import com.example.root.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
@@ -25,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -41,9 +35,6 @@ public class MovieServiceImpl implements MovieService {
     private final ImageRepository imageRepository;
     private final VideoRepository videoRepository;
     private final DirectorRepository directorRepository;
-    private final CommentService commentService;
-    private final RateRepository rateRepository;
-    private final RateService rateService;
 
     @Override
     public MovieDTO addMovie(MovieRequest movieRequest) {
@@ -54,20 +45,6 @@ public class MovieServiceImpl implements MovieService {
         movie.setCountries(countriesIds);
         movie.setGenres(genresIds);
         movie.setDirectors(directorsIds);
-        return movieMapper.mapToDTO(movieRepository.save(movie));
-    }
-
-    @Override
-    public MovieDTO addComment(long id, CommentRequest commentRequest) {
-        var movie = movieRepository.
-                findById(id).
-                orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + id + "} does not exist"));
-        var comment = commentService.createComment(commentRequest);
-        var movieComments = movie.getComments();
-        if (movieComments == null) {
-            movie.setComments(new ArrayList<>());
-        }
-        movie.getComments().add(comment);
         return movieMapper.mapToDTO(movieRepository.save(movie));
     }
 
@@ -177,26 +154,5 @@ public class MovieServiceImpl implements MovieService {
         videoRepository.deleteById(videoId);
         awsFileService.deleteAll(videoId.toString());
     }
-
-    @Override
-    public Rate addRating(Long movieId, int rating) throws IllegalArgumentException, InvalidRatingValueException {
-        rateService.validateRating(rating);
-        var movie = movieRepository.
-                findById(movieId).
-                orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + movieId + "} does not exist"));
-
-        var optionalRate = rateRepository.findById(movieId);
-        Rate rate;
-        if (optionalRate.isEmpty()) {
-            rate = new Rate(movie.getId(), rating, 0);
-        } else {
-            rate = optionalRate.get();
-            rate.setValue(rateService.calculateNewRatingValue(rate.getRateCount(), rate.getValue(), rating));
-            rate.setRateCount(rate.getRateCount() + 1);
-        }
-        rateRepository.save(rate);
-        return rate;
-    }
-
 
 }

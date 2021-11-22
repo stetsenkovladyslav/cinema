@@ -1,14 +1,14 @@
 package com.example.admin.controller.movie;
 
 import com.example.admin.criteria.MovieCriteria;
-import com.example.admin.dto.comment.CommentRequest;
-import com.example.admin.dto.movie.MovieDTO;
-import com.example.admin.dto.movie.MovieRequest;
-import com.example.admin.dto.rate.AddRateDTO;
-import com.example.admin.exception.InvalidRatingValueException;
+import com.example.data.dto.comment.CommentRequest;
+import com.example.data.dto.movie.MovieDTO;
+import com.example.data.dto.movie.MovieRequest;
+import com.example.data.dto.rate.AddRateDTO;
+import com.example.data.exception.InvalidRatingValueException;
 import com.example.admin.mapper.MovieMapper;
-import com.example.admin.model.Movie;
-import com.example.admin.model.Rate;
+import com.example.data.model.Movie;
+import com.example.data.model.Rate;
 import com.example.admin.service.movie.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;

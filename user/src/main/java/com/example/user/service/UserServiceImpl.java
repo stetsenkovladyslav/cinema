@@ -1,8 +1,8 @@
 package com.example.user.service;
 
 import com.example.user.mapper.UserMapper;
-import com.example.user.model.Role;
-import com.example.user.model.User;
+import com.example.data.enums.Role;
+import com.example.data.model.User;
 import com.example.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

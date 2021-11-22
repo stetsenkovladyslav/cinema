@@ -1,9 +1,9 @@
 package com.example.admin.mapper;
 
 
-import com.example.admin.dto.comment.CommentDTO;
-import com.example.admin.dto.comment.CommentRequest;
-import com.example.admin.model.Comment;
+import com.example.data.dto.comment.CommentDTO;
+import com.example.data.dto.comment.CommentRequest;
+import com.example.data.model.Comment;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

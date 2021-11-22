@@ -1,9 +1,9 @@
 package com.example.admin.controller.director;
 
-import com.example.admin.dto.director.DirectorDTO;
-import com.example.admin.dto.director.DirectorRequest;
+import com.example.data.dto.director.DirectorDTO;
+import com.example.data.dto.director.DirectorRequest;
 import com.example.admin.mapper.DirectorMapper;
-import com.example.admin.model.Director;
+import com.example.data.model.Director;
 import com.example.admin.service.director.DirectorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

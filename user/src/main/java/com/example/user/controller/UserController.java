@@ -1,19 +1,16 @@
 package com.example.user.controller;
 
 
-import com.example.user.dto.UserDto;
 import com.example.user.mapper.UserMapper;
-import com.example.user.model.User;
+import com.example.data.model.User;
 import com.example.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/admin")

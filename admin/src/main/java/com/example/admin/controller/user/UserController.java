@@ -1,13 +1,13 @@
 package com.example.admin.controller.user;
 
 import com.example.admin.criteria.MovieCriteria;
-import com.example.admin.dto.comment.CommentRequest;
-import com.example.admin.dto.movie.MovieDTO;
-import com.example.admin.dto.rate.AddRateDTO;
-import com.example.admin.exception.InvalidRatingValueException;
+import com.example.data.dto.comment.CommentRequest;
+import com.example.data.dto.movie.MovieDTO;
+import com.example.data.dto.rate.AddRateDTO;
+import com.example.data.exception.InvalidRatingValueException;
 import com.example.admin.mapper.MovieMapper;
-import com.example.admin.model.Movie;
-import com.example.admin.model.Rate;
+import com.example.data.model.Movie;
+import com.example.data.model.Rate;
 import com.example.admin.service.movie.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
@@ -59,14 +59,16 @@ public class UserController {
         return ResponseEntity.ok(allBooks.map(movieMapper::toDTO));
     }
 
-    @GetMapping(value = "/image/{id}")
+    @GetMapping(value = "/image/{id}",
+            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<InputStreamResource> getImage(@PathVariable long id) {
         return ResponseEntity.ok()
                 .header("Content-disposition", "attachment; fileName=" + id + ".jpg")
                 .body(movieService.getImage(id));
     }
 
-    @GetMapping(value = "/video/{id}")
+    @GetMapping(value = "/video/{id}",
+            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<InputStreamResource> getVideo(@PathVariable long id) {
         return ResponseEntity.ok()
                 .header("Content-disposition", "attachment; fileName=" + id + ".mp4")

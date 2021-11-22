@@ -1,8 +1,8 @@
 package com.example.admin.mapper;
 
-import com.example.admin.dto.movie.MovieDTO;
-import com.example.admin.dto.movie.MovieRequest;
-import com.example.admin.model.Movie;
+import com.example.data.dto.movie.MovieDTO;
+import com.example.data.dto.movie.MovieRequest;
+import com.example.data.model.Movie;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

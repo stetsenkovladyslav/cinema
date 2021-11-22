@@ -1,8 +1,8 @@
 package com.example.admin.service.user.comment;
 
-import com.example.admin.dto.comment.CommentRequest;
+import com.example.data.dto.comment.CommentRequest;
 import com.example.admin.mapper.CommentMapper;
-import com.example.admin.model.Comment;
+import com.example.data.model.Comment;
 import com.example.admin.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

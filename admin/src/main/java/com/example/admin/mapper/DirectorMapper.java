@@ -1,8 +1,8 @@
 package com.example.admin.mapper;
 
-import com.example.admin.dto.director.DirectorDTO;
-import com.example.admin.dto.director.DirectorRequest;
-import com.example.admin.model.Director;
+import com.example.data.dto.director.DirectorDTO;
+import com.example.data.dto.director.DirectorRequest;
+import com.example.data.model.Director;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

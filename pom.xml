@@ -16,6 +16,7 @@
     <modules>
         <module>admin</module>
         <module>user</module>
+        <module>data</module>
     </modules>
 
     <properties>

@@ -1,6 +1,6 @@
 package com.example.admin.repository;
 
-import com.example.admin.model.Video;
+import com.example.data.model.Video;
 import org.springframework.data.repository.CrudRepository;
 
 

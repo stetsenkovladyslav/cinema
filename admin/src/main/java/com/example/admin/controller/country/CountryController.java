@@ -1,9 +1,9 @@
 package com.example.admin.controller.country;
 
-import com.example.admin.dto.country.CountryDTO;
-import com.example.admin.dto.country.CountryRequest;
+import com.example.data.dto.country.CountryDTO;
+import com.example.data.dto.country.CountryRequest;
 import com.example.admin.mapper.CountryMapper;
-import com.example.admin.model.Country;
+import com.example.data.model.Country;
 import com.example.admin.service.country.CountryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

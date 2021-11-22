@@ -2,15 +2,15 @@ package com.example.admin.service.movie;
 
 
 import com.example.admin.criteria.MovieCriteria;
-import com.example.admin.dto.comment.CommentRequest;
-import com.example.admin.dto.movie.MovieDTO;
-import com.example.admin.dto.movie.MovieRequest;
-import com.example.admin.enums.ImageFormat;
-import com.example.admin.enums.VideoFormat;
-import com.example.admin.exception.FileFormatException;
-import com.example.admin.exception.InvalidRatingValueException;
+import com.example.data.dto.comment.CommentRequest;
+import com.example.data.dto.movie.MovieDTO;
+import com.example.data.dto.movie.MovieRequest;
+import com.example.data.enums.ImageFormat;
+import com.example.data.enums.VideoFormat;
+import com.example.data.exception.FileFormatException;
+import com.example.data.exception.InvalidRatingValueException;
 import com.example.admin.mapper.MovieMapper;
-import com.example.admin.model.*;
+import com.example.data.model.*;
 import com.example.admin.repository.*;
 import com.example.admin.service.file.AwsFileService;
 import com.example.admin.service.user.comment.CommentService;

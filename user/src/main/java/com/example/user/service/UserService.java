@@ -1,12 +1,9 @@
 package com.example.user.service;
 
-
-import com.example.user.dto.UserDto;
-import com.example.user.model.User;
+import com.example.data.model.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.UUID;
 
 public interface UserService extends UserDetailsService {
 

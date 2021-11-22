@@ -1,7 +1,7 @@
 package com.example.user.service;
 
-import com.example.user.dto.UserDto;
-import com.example.user.model.User;
+import com.example.data.dto.user.UserDto;
+import com.example.data.model.User;
 
 public interface AuthService {
 

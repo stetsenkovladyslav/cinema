@@ -1,9 +1,9 @@
 package com.example.admin.mapper;
 
 
-import com.example.admin.dto.country.CountryDTO;
-import com.example.admin.dto.country.CountryRequest;
-import com.example.admin.model.Country;
+import com.example.data.dto.country.CountryDTO;
+import com.example.data.dto.country.CountryRequest;
+import com.example.data.model.Country;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

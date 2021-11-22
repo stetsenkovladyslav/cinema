@@ -1,9 +1,9 @@
 package com.example.admin.mapper;
 
 
-import com.example.admin.dto.rate.RateDTO;
-import com.example.admin.dto.rate.RateRequest;
-import com.example.admin.model.Rate;
+import com.example.data.dto.rate.RateDTO;
+import com.example.data.dto.rate.RateRequest;
+import com.example.data.model.Rate;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

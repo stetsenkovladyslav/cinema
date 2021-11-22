@@ -1,7 +1,7 @@
 package com.example.admin.service.user.comment;
 
-import com.example.admin.dto.comment.CommentRequest;
-import com.example.admin.model.Comment;
+import com.example.data.dto.comment.CommentRequest;
+import com.example.data.model.Comment;
 
 public interface CommentService {
     Comment createComment(CommentRequest commentRequest);

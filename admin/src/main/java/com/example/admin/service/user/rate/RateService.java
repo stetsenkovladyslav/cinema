@@ -1,6 +1,6 @@
 package com.example.admin.service.user.rate;
 
-import com.example.admin.exception.InvalidRatingValueException;
+import com.example.data.exception.InvalidRatingValueException;
 
 public interface RateService {
 

@@ -1,6 +1,6 @@
 package com.example.admin.mapper;
 
-import com.example.admin.model.BaseEntity;
+import com.example.data.model.BaseEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;
 

@@ -1,9 +1,8 @@
 package com.example.user.controller;
 
-import com.example.user.dto.AuthenticationRequest;
-import com.example.user.dto.UserDto;
-import com.example.user.model.Role;
-import com.example.user.model.User;
+import com.example.data.dto.user.AuthenticationRequest;
+import com.example.data.dto.user.UserDto;
+import com.example.data.model.User;
 import com.example.user.security.JwtUtil;
 import com.example.user.service.AuthService;
 import com.example.user.service.UserService;
@@ -24,7 +23,7 @@ public class AuthController {
     private final AuthService authService;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
-    private final UserService userService;
+    private final UserService adminService;
 
 
     @PostMapping(
@@ -46,7 +45,7 @@ public class AuthController {
 
     @GetMapping("/activate/{code}")
     public ResponseEntity<String> activate(Model model, @PathVariable String code) {
-        boolean isActivated = userService.activateAdmin(code);
+        boolean isActivated = adminService.activateAdmin(code);
 
         if (isActivated) {
             model.addAttribute("messageType", "success");

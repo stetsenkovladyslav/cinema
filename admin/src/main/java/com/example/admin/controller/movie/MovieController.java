@@ -84,14 +84,16 @@ public class MovieController {
         return ResponseEntity.ok(movieService.addVideo(movieId, multipartFile));
     }
 
-    @GetMapping(value = "/image/{id}")
+    @GetMapping(value = "/image/{id}",
+            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<InputStreamResource> getImage(@PathVariable long id) {
         return ResponseEntity.ok()
                 .header("Content-disposition", "attachment; fileName=" + id + ".jpg")
                 .body(movieService.getImage(id));
     }
 
-    @GetMapping(value = "/video/{id}")
+    @GetMapping(value = "/video/{id}",
+            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<InputStreamResource> getVideo(@PathVariable long id) {
         return ResponseEntity.ok()
                 .header("Content-disposition", "attachment; fileName=" + id + ".mp4")

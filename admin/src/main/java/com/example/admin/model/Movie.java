@@ -1,6 +1,8 @@
 package com.example.admin.model;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -52,25 +54,15 @@ public class Movie extends BaseEntity{
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "movie_videos",
-            joinColumns = @JoinColumn(
-                    name = "movie_id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "video_id"
-            )
-    )
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "video_id"))
     @ToString.Exclude
     private List<Video> videos;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "movie_images",
-            joinColumns = @JoinColumn(
-                    name = "movie_id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "image_id"
-            )
+    @JoinTable(name = "movie_images",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "image_id")
     )
     @ToString.Exclude
     private List<Image> images;
@@ -83,11 +75,9 @@ public class Movie extends BaseEntity{
     @JoinTable(
             name = "movies_comments",
             joinColumns = @JoinColumn(name = "movie_id"),
-            inverseJoinColumns = @JoinColumn(name = "comment_id")
-    )
+            inverseJoinColumns = @JoinColumn(name = "comment_id"))
     @ToString.Exclude
     private List<Comment> comments;
-
 
     public void addImage(Image image) {
         images.add(image);

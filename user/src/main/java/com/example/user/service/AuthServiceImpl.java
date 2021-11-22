@@ -46,9 +46,13 @@ public class AuthServiceImpl implements AuthService{
             throw new UserAlreadyExistException("User with thi1s username already exist");
         }
         User newUser = userMapper.dtoToUser(userDto);
+        if(newUser.getRole() == Role.ADMIN){
+            newUser.setRole(Role.USER);
+            newUser.setEnabled(true);
+        }
         newUser.setPassword(encoder.encode(userDto.getPassword()));
         newUser.setLocked(false);
-        newUser.setEnabled(userDto.getRole() == Role.USER);
+        newUser.setEnabled(true);
         return userRepository.save(newUser);
     }
 

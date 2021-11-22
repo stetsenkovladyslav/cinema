@@ -2,6 +2,7 @@ package com.example.user.controller;
 
 import com.example.user.dto.AuthenticationRequest;
 import com.example.user.dto.UserDto;
+import com.example.user.model.Role;
 import com.example.user.model.User;
 import com.example.user.security.JwtUtil;
 import com.example.user.service.AuthService;
@@ -39,9 +40,6 @@ public class AuthController {
             value = "/register")
     public ResponseEntity<String> registerUser(@RequestBody @Valid UserDto userDto) {
         User newUser = authService.register(userDto);
-        if (!newUser.isEnabled()) {
-            return ResponseEntity.ok("Waiting for approval");
-        }
         return ResponseEntity.ok(jwtUtil.generateToken(newUser));
     }
 
@@ -55,6 +53,6 @@ public class AuthController {
         } else {
             model.addAttribute("messageType", "danger");
         }
-        return ResponseEntity.ok("User successfully activated");
+        return ResponseEntity.ok("ADMIN successfully activated");
     }
 }

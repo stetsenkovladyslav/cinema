@@ -5,6 +5,7 @@ import com.example.root.dto.comment.CommentRequest;
 import com.example.root.dto.movie.MovieDTO;
 import com.example.admin.criteria.MovieCriteria;
 import com.example.root.dto.movie.MovieRequest;
+import com.example.root.dto.movie.UpdateMovieRequest;
 import com.example.root.exception.InvalidRatingValueException;
 import com.example.root.model.Movie;
 import com.example.root.model.Rate;
@@ -22,7 +23,7 @@ public interface MovieService {
 
     void deleteMovieById(long id);
 
-    MovieDTO updateMovieById(long id, MovieRequest movieRequest);
+    MovieDTO updateMovieById(long id, UpdateMovieRequest updateMovieRequest);
 
     MovieDTO getMovieById(long id);
 

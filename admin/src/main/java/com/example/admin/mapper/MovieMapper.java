@@ -2,11 +2,12 @@ package com.example.admin.mapper;
 
 import com.example.root.dto.movie.MovieDTO;
 import com.example.root.dto.movie.MovieRequest;
+import com.example.root.dto.movie.UpdateMovieRequest;
 import com.example.root.model.Movie;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface MovieMapper extends CrudMapper<Movie, MovieDTO, MovieRequest, MovieRequest> {
+public interface MovieMapper extends CrudMapper<Movie, MovieDTO, MovieRequest, UpdateMovieRequest> {
 
 
     Movie dtoToMovie(MovieDTO movieDTO);

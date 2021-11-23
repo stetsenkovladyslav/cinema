@@ -6,6 +6,7 @@ import com.example.admin.repository.*;
 import com.example.root.aws.AwsFileService;
 import com.example.root.dto.movie.MovieDTO;
 import com.example.root.dto.movie.MovieRequest;
+import com.example.root.dto.movie.UpdateMovieRequest;
 import com.example.root.enums.ImageFormat;
 import com.example.root.enums.VideoFormat;
 import com.example.root.exception.FileFormatException;
@@ -54,14 +55,13 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieDTO updateMovieById(long id, MovieRequest movieRequest) {
+    public MovieDTO updateMovieById(long id, UpdateMovieRequest updateMovieRequest) {
         var movie = movieRepository.
                 findById(id).
                 orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + id + "} does not exist"));
-        movie.setCountries(countryRepository.getCountryByIdIn(movieRequest.getCountriesIds()));
-        movie.setGenres(genreRepository.getGenreByIdIn(movieRequest.getGenresIds()));
-        movie.setDirectors(directorRepository.getDirectorByIdIn(movieRequest.getDirectorsIds()));
-        return movieMapper.mapToDTO(movieRepository.save(movieMapper.update(movie, movieRequest)));
+        movie.setGenres(genreRepository.getGenreByIdIn(updateMovieRequest.getGenresIds()));
+        movie.setDirectors(directorRepository.getDirectorByIdIn(updateMovieRequest.getDirectorsIds()));
+        return movieMapper.mapToDTO(movieRepository.save(movieMapper.update(movie, updateMovieRequest)));
     }
 
     @Override

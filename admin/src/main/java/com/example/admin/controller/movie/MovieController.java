@@ -4,6 +4,7 @@ import com.example.admin.criteria.MovieCriteria;
 import com.example.root.dto.movie.MovieDTO;
 import com.example.root.dto.movie.MovieRequest;
 import com.example.admin.mapper.MovieMapper;
+import com.example.root.dto.movie.UpdateMovieRequest;
 import com.example.root.model.Movie;
 import com.example.admin.service.movie.MovieService;
 import lombok.RequiredArgsConstructor;
@@ -53,9 +54,9 @@ public class MovieController {
     @Secured("ROLE_ADMIN")
     MovieDTO updateMovie(
             @PathVariable @Valid @Positive(message = "Value must be higher than 0") Long id,
-            @RequestBody @Valid MovieRequest movieRequest
+            @RequestBody @Valid UpdateMovieRequest updateMovieRequest
     ) {
-        return movieService.updateMovieById(id, movieRequest);
+        return movieService.updateMovieById(id, updateMovieRequest);
     }
 
     @DeleteMapping(value = "/{id}")

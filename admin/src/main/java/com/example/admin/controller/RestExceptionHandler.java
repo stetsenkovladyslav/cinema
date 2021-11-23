@@ -1,7 +1,9 @@
 package com.example.admin.controller;
 
 import com.example.root.dto.ErrorMessage;
+import com.example.root.exception.UserAlreadyExistException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -20,6 +22,15 @@ public class RestExceptionHandler {
                 .setMessage("Unexpected error")
                 .setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .setTimestamp(Instant.now());
+    }
+
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public ResponseEntity<ErrorMessage> userAlreadyExist(UserAlreadyExistException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ErrorMessage()
+                        .setMessage(ex.getMessage())
+                        .setStatus(HttpStatus.CONFLICT.value())
+                        .setTimestamp(Instant.now()));
     }
 
 }

@@ -1,8 +1,13 @@
 package com.example.user.service.user;
 
-import com.example.user.mapper.UserMapper;
+import com.example.root.dto.country.CountryDTO;
+import com.example.root.dto.country.CountryRequest;
+import com.example.root.dto.user.UpdateUserRequest;
+import com.example.root.dto.user.UserDto;
 import com.example.root.enums.Role;
+import com.example.root.model.Country;
 import com.example.root.model.User;
+import com.example.user.mapper.UserMapper;
 import com.example.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +45,18 @@ public class UserServiceImpl implements UserService {
         user.setRole(Role.ADMIN);
         userRepository.save(user);
         return true;
+    }
+
+    @Override
+    public UserDto updateUser(long id, UpdateUserRequest updateUserRequest) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with id:{" + id + "} does not exist"));
+        return userMapper.mapToDTO(userRepository.save(userMapper.update(user, updateUserRequest)));
+    }
+
+    @Override
+    public void deleteUser(long id) {
+        userRepository.deleteById(id);
     }
 
 }

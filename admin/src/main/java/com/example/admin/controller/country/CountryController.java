@@ -32,11 +32,11 @@ public class CountryController {
     @GetMapping
     @Secured("ROLE_ADMIN")
     ResponseEntity<Page<CountryDTO>> getAllCountries(Pageable pageable) {
-        Page<Country> allGenres = countryService.getAllCountries(pageable);
-        if (allGenres.isEmpty()) {
+        Page<Country> allCountries = countryService.getAllCountries(pageable);
+        if (allCountries.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(allGenres.map(countryMapper::toDTO));
+        return ResponseEntity.ok(allCountries.map(countryMapper::toDTO));
     }
 
     @GetMapping(value = "/{id}")

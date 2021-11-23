@@ -1,4 +1,4 @@
-package com.example.admin.service.security;
+package com.example.admin.service.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

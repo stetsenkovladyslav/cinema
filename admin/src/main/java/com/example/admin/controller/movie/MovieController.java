@@ -68,21 +68,21 @@ public class MovieController {
     @PostMapping(value = "/image/{id}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<Movie> addImage(
+    public Movie addImage(
             @PathVariable Long id,
             @RequestBody MultipartFile multipartFile
     ) throws IOException {
-        return ResponseEntity.ok(movieService.addImage(id, multipartFile));
+        return movieService.addImage(id, multipartFile);
     }
 
     @PostMapping(value = "/video/{movieId}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<Movie> addVideo(
+    public Movie addVideo(
             @PathVariable Long movieId,
             @RequestBody MultipartFile multipartFile
     ) throws IOException {
-        return ResponseEntity.ok(movieService.addVideo(movieId, multipartFile));
+        return movieService.addVideo(movieId, multipartFile);
     }
 
     @GetMapping(value = "/image/{id}",
@@ -105,15 +105,13 @@ public class MovieController {
 
     @DeleteMapping(value = "/image/{id}")
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<Void> deleteImage(@PathVariable Long id) {
+    public void deleteImage(@PathVariable Long id) {
         movieService.deleteImage(id);
-        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(value = "/video/{id}")
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<Void> deleteVideo(@PathVariable Long id) {
+    public void deleteVideo(@PathVariable Long id) {
         movieService.deleteVideo(id);
-        return ResponseEntity.ok().build();
     }
 }

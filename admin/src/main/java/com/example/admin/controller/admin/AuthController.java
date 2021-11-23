@@ -1,17 +1,13 @@
 package com.example.admin.controller.admin;
 
-import com.example.admin.service.security.AdminService;
 import com.example.admin.service.security.AuthService;
 import com.example.admin.service.security.JwtUtil;
 import com.example.root.dto.user.AuthenticationRequest;
-import com.example.root.dto.user.UserDto;
-import com.example.root.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

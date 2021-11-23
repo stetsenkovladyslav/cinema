@@ -1,4 +1,4 @@
-package com.example.user.service.user.comment;
+package com.example.user.service.comment;
 
 import com.example.root.dto.comment.CommentRequest;
 import com.example.root.model.Comment;

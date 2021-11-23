@@ -1,4 +1,4 @@
-package com.example.user.service;
+package com.example.user.service.movie;
 
 import com.example.root.dto.comment.CommentRequest;
 import com.example.root.dto.movie.MovieDTO;

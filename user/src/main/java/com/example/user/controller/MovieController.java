@@ -8,7 +8,7 @@ import com.example.root.model.Movie;
 import com.example.root.model.Rate;
 import com.example.user.criteria.MovieCriteria;
 import com.example.user.mapper.MovieMapper;
-import com.example.user.service.MovieService;
+import com.example.user.service.movie.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,6 +30,7 @@ public class MovieController {
     private final MovieMapper movieMapper;
 
     @PostMapping(value = "/{id}/comment")
+    @Secured("ROLE_USER")
     MovieDTO addComment(
             @PathVariable @Valid @Positive(message = "Value must be higher than 0") Long id,
             @RequestBody @Valid CommentRequest commentRequest) {
@@ -39,6 +41,7 @@ public class MovieController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
+    @Secured("ROLE_USER")
     public ResponseEntity<Rate> addRatingToMovie(
             @PathVariable("id") Long movieId,
             @RequestBody AddRateDTO addRatingDto
@@ -48,6 +51,7 @@ public class MovieController {
     }
 
     @GetMapping(value = "/{id}")
+    @Secured("ROLE_USER")
     MovieDTO getMovie(
             @PathVariable @Valid @Positive(message = "Value must be higher than 0") Long id
     ) {
@@ -55,6 +59,7 @@ public class MovieController {
     }
 
     @GetMapping
+    @Secured("ROLE_USER")
     ResponseEntity<Page<MovieDTO>> getAllMovies(Pageable pageable, MovieCriteria movieCriteria) {
         Page<Movie> allBooks = movieService.getAllMovies(pageable, movieCriteria);
         return ResponseEntity.ok(allBooks.map(movieMapper::toDTO));
@@ -62,12 +67,14 @@ public class MovieController {
 
     @GetMapping(value = "/image/{id}",
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @Secured("ROLE_USER")
     public ResponseEntity<InputStreamResource> getImage(@PathVariable long id) {
         return ResponseEntity.ok()
                 .header("Content-disposition", "attachment; fileName=" + id + ".jpg")
                 .body(movieService.getImage(id));
     }
 
+    @Secured("ROLE_USER")
     @GetMapping(value = "/video/{id}",
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<InputStreamResource> getVideo(@PathVariable long id) {

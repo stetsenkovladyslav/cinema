@@ -1,4 +1,4 @@
-package com.example.user.service;
+package com.example.user.service.movie;
 
 import com.example.root.aws.AwsFileService;
 import com.example.root.dto.comment.CommentRequest;
@@ -10,8 +10,8 @@ import com.example.user.criteria.MovieCriteria;
 import com.example.user.mapper.MovieMapper;
 import com.example.user.repository.MovieRepository;
 import com.example.user.repository.RateRepository;
-import com.example.user.service.user.comment.CommentService;
-import com.example.user.service.user.rate.RateService;
+import com.example.user.service.comment.CommentService;
+import com.example.user.service.rate.RateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;

@@ -1,4 +1,4 @@
-package com.example.user.service.user.rate;
+package com.example.user.service.rate;
 
 import com.example.root.exception.InvalidRatingValueException;
 

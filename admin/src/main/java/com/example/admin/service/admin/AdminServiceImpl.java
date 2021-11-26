@@ -2,6 +2,7 @@ package com.example.admin.service.admin;
 
 import com.example.admin.repository.UserRepository;
 import com.example.root.enums.Role;
+import com.example.root.exception.UserRoleAdminException;
 import com.example.root.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

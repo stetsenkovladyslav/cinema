@@ -1,7 +1,6 @@
 package com.example.admin.controller.admin;
 
 import com.example.admin.service.admin.AdminService;
-import com.example.admin.service.admin.UserRoleAdminException;
 import com.example.root.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

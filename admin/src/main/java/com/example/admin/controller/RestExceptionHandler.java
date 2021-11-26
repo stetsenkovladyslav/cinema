@@ -1,8 +1,8 @@
 package com.example.admin.controller;
 
-import com.example.admin.service.admin.UserRoleAdminException;
 import com.example.root.dto.ErrorMessage;
 import com.example.root.exception.UserAlreadyExistException;
+import com.example.root.exception.UserRoleAdminException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

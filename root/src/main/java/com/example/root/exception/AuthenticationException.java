@@ -1,6 +1,4 @@
-package com.example.user.exception;
-
-import javax.ejb.ApplicationException;
+package com.example.root.exception;
 
 public class AuthenticationException extends RuntimeException {
     public AuthenticationException(String message) {

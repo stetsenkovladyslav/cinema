@@ -1,4 +1,4 @@
-package com.example.admin.service.admin;
+package com.example.root.exception;
 
 import javax.persistence.PersistenceException;
 

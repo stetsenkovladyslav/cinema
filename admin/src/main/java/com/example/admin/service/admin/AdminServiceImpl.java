@@ -36,8 +36,8 @@ public class AdminServiceImpl implements AdminService {
             user.setCode(UUID.randomUUID().toString());
             emailService.sendMessage(user);
             userRepository.save(user);
-        }
-        throw new UserRoleAdminException("User already has ADMIN role");
+        }else
+            throw new UserRoleAdminException("User already has ADMIN role");
     }
 
     @Override

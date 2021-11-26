@@ -90,6 +90,7 @@ public class AuthServiceImpl implements AuthService {
         newUser.setPassword(encoder.encode(userDto.getPassword()));
         newUser.setLocked(false);
         newUser.setEnabled(true);
+        userRepository.save(newUser);
         return userRepository.save(newUser);
     }
 }

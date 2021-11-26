@@ -1,5 +1,7 @@
 package com.example.root.dto.movie;
 
+import com.example.root.model.Comment;
+import com.example.root.model.Rate;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,6 +35,11 @@ public class MovieRequest {
     @NotEmpty(message = "Movie must have at list 1 country")
     private List<Long> countriesIds;
 
+    private List<String> image;
+    private List<String> video;
+    private Rate rate;
+
+    private List<Comment> comments;
     @NotNull
     private LocalDate dateAdded;
 

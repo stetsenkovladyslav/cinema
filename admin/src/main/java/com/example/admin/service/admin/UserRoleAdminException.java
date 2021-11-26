@@ -1,6 +1,8 @@
 package com.example.admin.service.admin;
 
-public class UserRoleAdminException extends Throwable {
+import javax.persistence.PersistenceException;
+
+public class UserRoleAdminException extends PersistenceException {
     public UserRoleAdminException(String message){
         super(message);
     }

@@ -11,6 +11,7 @@ import java.time.Instant;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
+
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorMessage handleAuthenticationException(AuthenticationException e) {

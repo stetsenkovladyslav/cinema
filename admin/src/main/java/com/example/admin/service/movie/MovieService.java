@@ -29,13 +29,13 @@ public interface MovieService {
 
     Page<Movie> getAllMovies(Pageable pageable, MovieCriteria movieCriteria);
 
-    Movie addImage(Long id, MultipartFile file) throws IOException;
+    MovieDTO addImage(Long id, MultipartFile file) throws IOException;
 
     InputStreamResource getImage(Long id);
 
     void deleteImage(Long imageId);
 
-    Movie addVideo(Long movieId, MultipartFile file) throws IOException;
+    MovieDTO addVideo(Long movieId, MultipartFile file) throws IOException;
 
     InputStreamResource getVideo(Long Id);
 

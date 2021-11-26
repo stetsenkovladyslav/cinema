@@ -65,21 +65,20 @@ public class MovieController {
         movieService.deleteMovieById(id);
     }
 
-
-    @PostMapping(value = "/image/{id}",
+    @PostMapping(value = "{movieId}/image",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Secured("ROLE_ADMIN")
-    public Movie addImage(
-            @PathVariable Long id,
+    public MovieDTO addImage(
+            @PathVariable Long movieId,
             @RequestBody MultipartFile multipartFile
     ) throws IOException {
-        return movieService.addImage(id, multipartFile);
+        return movieService.addImage(movieId, multipartFile);
     }
 
-    @PostMapping(value = "/video/{movieId}",
+    @PostMapping(value = "{movieId}/video",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Secured("ROLE_ADMIN")
-    public Movie addVideo(
+    public MovieDTO addVideo(
             @PathVariable Long movieId,
             @RequestBody MultipartFile multipartFile
     ) throws IOException {

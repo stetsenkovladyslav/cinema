@@ -1,6 +1,5 @@
 package com.example.admin.controller.admin;
 
-import com.example.admin.mapper.UserMapper;
 import com.example.admin.service.admin.AdminService;
 import com.example.admin.service.admin.UserRoleAdminException;
 import com.example.root.model.User;
@@ -18,14 +17,13 @@ import javax.validation.constraints.Positive;
 public class UserController {
 
     private final AdminService adminService;
-    private final UserMapper userMapper;
 
-    @GetMapping(value = "/create-admin/{id}")
+    @GetMapping(value = "/create-admin/{userId}")
     @Secured("ROLE_ADMIN")
     public ResponseEntity<String> createAdmin(
-            @PathVariable @Valid @Positive(message = "Value must be higher than 0") Long id
+            @PathVariable @Valid @Positive(message = "Value must be higher than 0") Long userId
     ) throws UserRoleAdminException {
-        adminService.addAdmin(id);
+        adminService.addAdmin(userId);
         return ResponseEntity.ok("Add admin...");
     }
 

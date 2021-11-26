@@ -68,7 +68,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     @Transactional
-    public Movie addImage(Long movieId, MultipartFile multipartFile) throws IOException {
+    public MovieDTO addImage(Long movieId, MultipartFile multipartFile) throws IOException {
         var movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + movieId + "} does not exist"));
         var image = new Image();
@@ -89,7 +89,7 @@ public class MovieServiceImpl implements MovieService {
             movie.setImages(images);
         }
         awsFileService.upload(image.getId().toString(), multipartFile.getInputStream());
-        return movieRepository.save(movie);
+        return movieMapper.mapToDTO(movieRepository.save(movie));
     }
 
     @Override
@@ -109,7 +109,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     @Transactional
-    public Movie addVideo(Long movieId, MultipartFile multipartFile) throws IOException {
+    public MovieDTO addVideo(Long movieId, MultipartFile multipartFile) throws IOException {
         var movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + movieId + "} does not exist"));
         var video = new Video();
@@ -130,7 +130,7 @@ public class MovieServiceImpl implements MovieService {
             movie.setVideos(videos);
         }
         awsFileService.upload(video.getId().toString(), multipartFile.getInputStream());
-        return movieRepository.save(movie);
+        return movieMapper.mapToDTO(movieRepository.save(movie));
     }
 
     @Override

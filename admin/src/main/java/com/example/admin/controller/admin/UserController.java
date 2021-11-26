@@ -2,6 +2,7 @@ package com.example.admin.controller.admin;
 
 import com.example.admin.mapper.UserMapper;
 import com.example.admin.service.admin.AdminService;
+import com.example.admin.service.admin.UserRoleAdminException;
 import com.example.root.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class UserController {
     @Secured("ROLE_ADMIN")
     public ResponseEntity<String> createAdmin(
             @PathVariable @Valid @Positive(message = "Value must be higher than 0") Long id
-    ) {
+    ) throws UserRoleAdminException {
         adminService.addAdmin(id);
         return ResponseEntity.ok("Add admin...");
     }

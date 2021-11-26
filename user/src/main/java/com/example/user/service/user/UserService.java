@@ -9,6 +9,4 @@ public interface UserService extends UserDetailsService {
     boolean activateAdmin(String code);
 
     UserDto updateUser(long id, UpdateUserRequest updateUserRequest);
-
-    void deleteUser(long id);
 }

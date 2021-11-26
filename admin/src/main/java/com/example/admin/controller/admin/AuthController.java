@@ -1,14 +1,12 @@
 package com.example.admin.controller.admin;
 
 import com.example.admin.service.security.AuthService;
-import com.example.admin.service.security.JwtUtil;
+import com.example.root.dto.jwt.JwtResponse;
 import com.example.root.dto.user.AuthenticationRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -17,16 +15,10 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final AuthService authService;
-    private final JwtUtil jwtUtil;
-    private final AuthenticationManager authenticationManager;
 
-    @PostMapping(
-            value = "/login")
-    public ResponseEntity<String> createAuthenticationToken(@RequestBody @Valid AuthenticationRequest auth) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(auth.getUsername(), auth.getPassword()));
-        final UserDetails userDetails = authService.login(auth.getUsername(), auth.getPassword());
-        final String jwt = jwtUtil.generateToken(userDetails);
-        return ResponseEntity.ok(jwt);
+    @PostMapping(value = "/login")
+    public JwtResponse createAuthenticationToken(@RequestBody @Valid AuthenticationRequest auth) {
+        return new JwtResponse(authService.login(auth));
     }
 
 }

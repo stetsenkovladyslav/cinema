@@ -39,7 +39,7 @@ public class MovieController {
     @Secured("ROLE_ADMIN")
     ResponseEntity<Page<MovieDTO>> getAllMovies(Pageable pageable, MovieCriteria movieCriteria) {
         Page<Movie> allBooks = movieService.getAllMovies(pageable, movieCriteria);
-        return ResponseEntity.ok(allBooks.map(movieMapper::toDTO));
+        return ResponseEntity.ok(allBooks.map(movieMapper::mapToDTO));
     }
 
     @GetMapping(value = "/{id}")

@@ -2,7 +2,9 @@ package com.example.admin.service.movie;
 
 import com.example.admin.criteria.MovieCriteria;
 import com.example.admin.mapper.MovieMapper;
-import com.example.admin.repository.*;
+import com.example.admin.repository.ImageRepository;
+import com.example.admin.repository.MovieRepository;
+import com.example.admin.repository.VideoRepository;
 import com.example.root.aws.AwsFileService;
 import com.example.root.dto.movie.MovieDTO;
 import com.example.root.dto.movie.MovieRequest;
@@ -10,7 +12,9 @@ import com.example.root.dto.movie.UpdateMovieRequest;
 import com.example.root.enums.ImageFormat;
 import com.example.root.enums.VideoFormat;
 import com.example.root.exception.FileFormatException;
-import com.example.root.model.*;
+import com.example.root.model.Image;
+import com.example.root.model.Movie;
+import com.example.root.model.Video;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
@@ -22,31 +26,20 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
-    private final GenreRepository genreRepository;
-    private final CountryRepository countryRepository;
     private final MovieMapper movieMapper;
     private final AwsFileService awsFileService;
     private final ImageRepository imageRepository;
     private final VideoRepository videoRepository;
-    private final DirectorRepository directorRepository;
 
     @Override
     public MovieDTO addMovie(MovieRequest movieRequest) {
-        Movie movie = movieMapper.create(movieRequest);
-        List<Director> directorsIds = directorRepository.getDirectorByIdIn(movieRequest.getDirectorsIds());
-        List<Genre> genresIds = genreRepository.getGenreByIdIn(movieRequest.getGenresIds());
-        List<Country> countriesIds = countryRepository.getCountryByIdIn(movieRequest.getCountriesIds());
-        movie.setCountries(countriesIds);
-        movie.setGenres(genresIds);
-        movie.setDirectors(directorsIds);
-        return movieMapper.mapToDTO(movieRepository.save(movie));
+        return movieMapper.mapToDTO(movieRepository.save(movieMapper.create(movieRequest)));
     }
 
     @Override
@@ -59,8 +52,6 @@ public class MovieServiceImpl implements MovieService {
         var movie = movieRepository.
                 findById(id).
                 orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + id + "} does not exist"));
-        movie.setGenres(genreRepository.getGenreByIdIn(updateMovieRequest.getGenresIds()));
-        movie.setDirectors(directorRepository.getDirectorByIdIn(updateMovieRequest.getDirectorsIds()));
         return movieMapper.mapToDTO(movieRepository.save(movieMapper.update(movie, updateMovieRequest)));
     }
 
@@ -77,8 +68,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     @Transactional
-    public Movie addImage(Long id, MultipartFile multipartFile) throws IOException {
-        var movie = movieRepository.findById(id).orElseThrow();
+    public Movie addImage(Long movieId, MultipartFile multipartFile) throws IOException {
+        var movie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + movieId + "} does not exist"));
         var image = new Image();
         var originalFilename = multipartFile.getOriginalFilename();
         if (originalFilename != null) {
@@ -118,7 +110,8 @@ public class MovieServiceImpl implements MovieService {
     @Override
     @Transactional
     public Movie addVideo(Long movieId, MultipartFile multipartFile) throws IOException {
-        var movie = movieRepository.findById(movieId).orElseThrow();
+        var movie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + movieId + "} does not exist"));
         var video = new Video();
         var originalFilename = multipartFile.getOriginalFilename();
         if (originalFilename != null) {
@@ -142,6 +135,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public InputStreamResource getVideo(Long videoId) {
+        videoRepository.
+                findById(videoId).
+                orElseThrow(() -> new EntityNotFoundException("Video with id:{" + videoId + "} does not exist"));
         return awsFileService.download(videoId.toString()).orElseThrow();
     }
 

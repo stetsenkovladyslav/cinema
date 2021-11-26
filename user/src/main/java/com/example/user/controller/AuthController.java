@@ -1,5 +1,6 @@
 package com.example.user.controller;
 
+import com.example.root.dto.jwt.JwtResponse;
 import com.example.root.dto.user.AuthenticationRequest;
 import com.example.root.dto.user.UserDto;
 import com.example.root.model.User;
@@ -22,17 +23,12 @@ public class AuthController {
 
     private final AuthService authService;
     private final JwtUtil jwtUtil;
-    private final AuthenticationManager authenticationManager;
     private final UserService adminService;
 
 
-    @PostMapping(
-            value = "/login")
-    public ResponseEntity<String> createAuthenticationToken(@RequestBody @Valid AuthenticationRequest auth) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(auth.getUsername(), auth.getPassword()));
-        final UserDetails userDetails = authService.login(auth.getUsername(), auth.getPassword());
-        final String jwt = jwtUtil.generateToken(userDetails);
-        return ResponseEntity.ok(jwt);
+    @PostMapping(value = "/login")
+    public JwtResponse createAuthenticationToken(@RequestBody @Valid AuthenticationRequest auth) {
+        return new JwtResponse(authService.login(auth));
     }
 
     @PostMapping(
@@ -41,7 +37,6 @@ public class AuthController {
         User newUser = authService.register(userDto);
         return ResponseEntity.ok(jwtUtil.generateToken(newUser));
     }
-
 
     @GetMapping("/activate/{code}")
     public ResponseEntity<String> activate(Model model, @PathVariable String code) {

@@ -1,15 +1,12 @@
 package com.example.admin.service.admin;
 
-import com.example.root.model.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.persistence.EntityNotFoundException;
 
 public interface AdminService extends UserDetailsService {
 
-    void sendMessage(User user);
-
-    void addAdmin(long id) throws EntityNotFoundException;
+    void addAdmin(long id) throws EntityNotFoundException, UserRoleAdminException;
 
     void deleteUser(long id);
 

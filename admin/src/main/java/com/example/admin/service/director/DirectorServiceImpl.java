@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +29,8 @@ public class DirectorServiceImpl implements DirectorService{
 
     @Override
     public void deleteDirectorById(long id) {
+        directorRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Director with id:{" + id + "} does not exist"));
         directorRepository.deleteById(id);
 
     }
@@ -41,11 +44,18 @@ public class DirectorServiceImpl implements DirectorService{
 
     @Override
     public DirectorDTO getDirectorById(long id) {
+        directorRepository.findById(id).
+                orElseThrow(() -> new EntityNotFoundException("Director with id:{" + id + "} does not exist"));
         return directorMapper.mapToDTO(directorRepository.getById(id));
     }
 
     @Override
     public Page<Director> getAllDirectors(Pageable pageable) {
         return directorRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Director> getAllByIds(List<Long> ids) {
+        return directorRepository.findAllById(ids);
     }
 }

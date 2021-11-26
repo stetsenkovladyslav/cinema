@@ -6,6 +6,8 @@ import com.example.root.model.Director;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface DirectorService {
 
 
@@ -18,4 +20,5 @@ public interface DirectorService {
     DirectorDTO getDirectorById(long id);
 
     Page<Director> getAllDirectors(Pageable pageable);
+    List<Director> getAllByIds(List<Long> ids);
 }

@@ -1,7 +1,6 @@
 package com.example.root.dto.movie;
 
-import com.example.root.model.Comment;
-import com.example.root.model.Rate;
+import com.example.root.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,16 +30,15 @@ public class MovieDTO {
 
     @NotNull(message = "The value should not be null")
     @NotEmpty(message = "Movie must have at list 1 director")
-    private List<Long> directorsIds;
+    private List<Director> directors;
 
     @NotNull(message = "The value should not be null")
     @NotEmpty(message = "Movie must have at list 1 genre")
-    private List<Long> genresIds;
-
+    private List<Genre> genres;
 
     @NotNull(message = "The value should not be null")
     @NotEmpty(message = "Movie must have at list 1 country")
-    private List<Long> countriesIds;
+    private List<Country> countries;
 
     @Size(max = 128, message = "Movie photo name must be less than 128 characters")
     private List<String> image;
@@ -51,7 +49,7 @@ public class MovieDTO {
     @NotNull
     private Rate rate;
 
-    private List<Comment> commentsIds;
+    private List<Comment> comments;
     @NotNull
     private LocalDate dateAdded;
 

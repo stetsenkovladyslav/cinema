@@ -10,6 +10,8 @@ import com.example.user.criteria.MovieCriteria;
 import com.example.user.mapper.MovieMapper;
 import com.example.user.repository.MovieRepository;
 import com.example.user.repository.RateRepository;
+import com.example.user.repository.UserRepository;
+import com.example.user.service.auth.AuthService;
 import com.example.user.service.comment.CommentService;
 import com.example.user.service.rate.RateService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 
+
 @Service
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
@@ -30,6 +33,8 @@ public class MovieServiceImpl implements MovieService {
     private final CommentService commentService;
     private final RateRepository rateRepository;
     private final RateService rateService;
+    private final UserRepository userRepository;
+    private final AuthService authenticationService;
 
     @Override
     public MovieDTO addComment(long id, CommentRequest commentRequest) {
@@ -48,6 +53,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieDTO getMovieById(long id) {
         movieRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Movie with id:{" + id + "} does not exist"));
+        movieRepository.addToHistory(authenticationService.getAuthenticatedUser().getId(), id);
         return movieMapper.mapToDTO(movieRepository.getById(id));
     }
 
@@ -57,14 +63,16 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public InputStreamResource getImage(Long id) {
-        return awsFileService.download(id.toString()).orElseThrow();
+    public InputStreamResource getImage(Long imageId) {
+        return awsFileService.download(imageId.toString()).
+                orElseThrow(() -> new EntityNotFoundException("Image with id:{" + imageId + "} does not exist"));
     }
-
 
     @Override
     public InputStreamResource getVideo(Long videoId) {
-        return awsFileService.download(videoId.toString()).orElseThrow();
+        return awsFileService.download(videoId.toString()).
+                orElseThrow(() -> new EntityNotFoundException("Video with id:{" + videoId + "} does not exist"));
+
     }
 
     @Override
@@ -85,5 +93,25 @@ public class MovieServiceImpl implements MovieService {
         }
         rateRepository.save(rate);
         return rate;
+    }
+
+    @Override
+    public void addToFavorite(Long userId, Long movieId) {
+        if (!movieRepository.existsById(movieId)) {
+            throw new EntityNotFoundException("Movie with id:{" + movieId + "} does not exist");
+        } else if(!userRepository.existsById(userId)){
+            throw new EntityNotFoundException("User with id:{" + userId + "} does not exist");
+        }
+        movieRepository.addToFavorite(userId, movieId);
+    }
+
+    @Override
+    public Page<Movie> getAllFavorites(Pageable pageable) {
+        return movieRepository.findAllFavoriteByUserId(authenticationService.getAuthenticatedUser().getId(), pageable);
+    }
+
+    @Override
+    public Page<Movie> getHistory(Pageable pageable) {
+        return  movieRepository.findAllMoviesInHistoryByUserId(authenticationService.getAuthenticatedUser().getId(), pageable);
     }
 }

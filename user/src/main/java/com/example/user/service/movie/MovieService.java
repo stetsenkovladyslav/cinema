@@ -25,4 +25,13 @@ public interface MovieService {
 
     Rate addRating(Long movieId, int rating) throws InvalidRatingValueException;
 
+    void addToFavorite(Long userId, Long movieId);
+
+    Page<Movie> getAllFavorites(Pageable pageable);
+
+    Page<Movie> getHistory(Pageable pageable);
+
+
+
+
 }

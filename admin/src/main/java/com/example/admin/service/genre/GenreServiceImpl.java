@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +29,8 @@ public class GenreServiceImpl implements GenreService{
 
     @Override
     public void deleteGenreById(long id) {
+        genreRepository.findById(id).
+                orElseThrow(() -> new EntityNotFoundException("Genre with id:{" + id + "} does not exist"));
         genreRepository.deleteById(id);
     }
 
@@ -39,11 +42,18 @@ public class GenreServiceImpl implements GenreService{
 
     @Override
     public GenreDTO getGenreById(long id) {
+        genreRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Genre with id:{" + id + "} does not exist"));
         return genreMapper.mapToDTO(genreRepository.getById(id));
     }
 
     @Override
     public Page<Genre> getAllGenres(Pageable pageable) {
         return genreRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Genre> getAllByIds(List<Long> ids) {
+        return genreRepository.findAllById(ids);
     }
 }

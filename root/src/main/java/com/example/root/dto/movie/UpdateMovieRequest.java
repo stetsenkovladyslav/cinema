@@ -25,4 +25,9 @@ public class UpdateMovieRequest {
     @NotEmpty(message = "Movie must have at list 1 genre")
     private List<Long> genresIds;
 
+    @NotNull(message = "The value should not be null")
+    @NotEmpty(message = "Movie must have at list 1 genre")
+    private List<Long> countriesIds;
+
+
 }

@@ -24,10 +24,4 @@ public class UserController {
         return userService.updateUser(id, updateUserRequest);
     }
 
-    @DeleteMapping(value = "/{id}")
-    @Secured("ROLE_USER")
-    void delete(
-            @PathVariable @Valid @Positive(message = "Value must be higher than 0") Long id) {
-        userService.deleteUser(id);
-    }
 }

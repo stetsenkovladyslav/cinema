@@ -3,15 +3,12 @@ package com.example.user.controller;
 import com.example.root.dto.jwt.JwtResponse;
 import com.example.root.dto.user.AuthenticationRequest;
 import com.example.root.dto.user.UserDto;
+import com.example.root.jwt.JwtUtil;
 import com.example.root.model.User;
-import com.example.user.security.JwtUtil;
 import com.example.user.service.auth.AuthService;
 import com.example.user.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +21,7 @@ public class AuthController {
     private final AuthService authService;
     private final JwtUtil jwtUtil;
     private final UserService adminService;
+
 
 
     @PostMapping(value = "/login")
@@ -40,7 +38,8 @@ public class AuthController {
 
     @GetMapping("/activate/{code}")
     public ResponseEntity<String> activate(Model model, @PathVariable String code) {
-        boolean isActivated = adminService.activateAdmin(code);
+        boolean isActivated =
+                adminService.activateAdmin(code);
 
         if (isActivated) {
             model.addAttribute("messageType", "success");
@@ -49,4 +48,7 @@ public class AuthController {
         }
         return ResponseEntity.ok("ADMIN successfully activated");
     }
+
+
+
 }

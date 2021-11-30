@@ -1,6 +1,6 @@
 package com.example.admin.config;
 
-import com.example.admin.service.security.JwtRequestFilter;
+import com.example.root.jwt.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

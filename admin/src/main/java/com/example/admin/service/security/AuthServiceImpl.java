@@ -6,6 +6,7 @@ import com.example.root.dto.user.AuthenticationRequest;
 import com.example.root.dto.user.UserDto;
 import com.example.root.enums.Role;
 import com.example.root.exception.UserAlreadyExistException;
+import com.example.root.jwt.JwtUtil;
 import com.example.root.model.User;
 
 import lombok.extern.slf4j.Slf4j;

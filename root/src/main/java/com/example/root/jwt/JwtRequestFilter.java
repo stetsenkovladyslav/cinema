@@ -1,4 +1,4 @@
-package com.example.admin.service.security;
+package com.example.root.jwt;
 
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;

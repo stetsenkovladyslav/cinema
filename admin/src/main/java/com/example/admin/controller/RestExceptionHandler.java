@@ -1,8 +1,7 @@
 package com.example.admin.controller;
 
 import com.example.root.dto.ErrorMessage;
-import com.example.root.exception.UserAlreadyExistException;
-import com.example.root.exception.UserRoleAdminException;
+import com.example.root.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,7 +14,6 @@ import java.time.Instant;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
-
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorMessage handleGlobalException(Exception e) {
@@ -26,13 +24,13 @@ public class RestExceptionHandler {
                 .setTimestamp(Instant.now());
     }
 
-    @ExceptionHandler(UserAlreadyExistException.class)
-    public ResponseEntity<ErrorMessage> userAlreadyExist(UserAlreadyExistException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(new ErrorMessage()
-                        .setMessage(ex.getMessage())
-                        .setStatus(HttpStatus.CONFLICT.value())
-                        .setTimestamp(Instant.now()));
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorMessage handleAuthenticationException(AuthenticationException e) {
+        return new ErrorMessage()
+                .setMessage(e.getMessage())
+                .setStatus(HttpStatus.UNAUTHORIZED.value())
+                .setTimestamp(Instant.now());
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
@@ -44,15 +42,49 @@ public class RestExceptionHandler {
                 .setTimestamp(Instant.now());
     }
 
+    @ExceptionHandler(UserAlreadyExistException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorMessage handleEntityAlreadyExistsException(UserAlreadyExistException e) {
+        return new ErrorMessage()
+                .setMessage(e.getMessage())
+                .setStatus(HttpStatus.CONFLICT.value())
+                .setTimestamp(Instant.now());
+    }
 
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleBadRequestException(BadRequestException e) {
+        return new ErrorMessage()
+                .setMessage(e.getMessage())
+                .setStatus(HttpStatus.BAD_REQUEST.value())
+                .setTimestamp(Instant.now());
+    }
+
+    @ExceptionHandler(FileFormatException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorMessage handleEntityAlreadyExistsException(FileFormatException e) {
+        return new ErrorMessage()
+                .setMessage(e.getMessage())
+                .setStatus(HttpStatus.CONFLICT.value())
+                .setTimestamp(Instant.now());
+    }
+
+    @ExceptionHandler(InvalidRatingValueException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorMessage handleEntityAlreadyExistsException(InvalidRatingValueException e) {
+        return new ErrorMessage()
+                .setMessage(e.getMessage())
+                .setStatus(HttpStatus.CONFLICT.value())
+                .setTimestamp(Instant.now());
+    }
 
     @ExceptionHandler(UserRoleAdminException.class)
-    public ResponseEntity<ErrorMessage> userRoleAdminException(UserRoleAdminException ex) {
-        return ResponseEntity.status(HttpStatus.LOCKED)
-                .body(new ErrorMessage()
-                        .setMessage(ex.getMessage())
-                        .setStatus(HttpStatus.LOCKED.value())
-                        .setTimestamp(Instant.now()));
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorMessage handleEntityAlreadyExistsException(UserRoleAdminException e) {
+        return new ErrorMessage()
+                .setMessage(e.getMessage())
+                .setStatus(HttpStatus.CONFLICT.value())
+                .setTimestamp(Instant.now());
     }
 
 

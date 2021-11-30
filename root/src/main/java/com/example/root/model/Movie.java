@@ -4,7 +4,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -50,18 +52,12 @@ public class Movie extends BaseEntity{
     private List<Country> countries;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "movie_videos",
-            joinColumns = @JoinColumn(name = "movie_id"),
-            inverseJoinColumns = @JoinColumn(name = "video_id"))
+    @JoinColumn(name  = "movie_id")
     @ToString.Exclude
     private List<Video> videos;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "movie_images",
-            joinColumns = @JoinColumn(name = "movie_id"),
-            inverseJoinColumns = @JoinColumn(name = "image_id")
-    )
+    @JoinColumn(name  = "movie_id")
     @ToString.Exclude
     private List<Image> images;
 

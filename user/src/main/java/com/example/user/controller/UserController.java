@@ -4,7 +4,9 @@ import com.example.root.dto.user.UpdateUserRequest;
 import com.example.root.dto.user.UserDto;
 import com.example.user.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,5 +25,6 @@ public class UserController {
             @RequestBody @Valid UpdateUserRequest updateUserRequest) {
         return userService.updateUser(id, updateUserRequest);
     }
+
 
 }

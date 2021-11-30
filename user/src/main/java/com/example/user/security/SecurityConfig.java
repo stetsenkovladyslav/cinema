@@ -1,5 +1,6 @@
 package com.example.user.security;
 
+import com.example.root.jwt.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

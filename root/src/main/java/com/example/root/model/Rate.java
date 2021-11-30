@@ -15,10 +15,10 @@ import javax.persistence.Table;
 @AllArgsConstructor
 public class Rate extends BaseEntity {
 
-    @Column(name = "value", nullable = false, precision = 2, scale = 2)
+    @Column(name = "value", nullable = true, precision = 2, scale = 2)
     private double value;
 
-    @Column(name = "rate_count", nullable = false)
+    @Column(name = "rate_count", nullable = true)
     private long rateCount;
 
     public Rate(Long id, int rating, int i) {

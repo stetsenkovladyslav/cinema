@@ -1,5 +1,7 @@
 package com.example.root.dto.movie;
 
+import com.example.root.enums.Country;
+import com.example.root.enums.Genre;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,13 +27,14 @@ public class MovieRequest {
     @NotEmpty(message = "Movie must have at list 1 director")
     private List<Long> directorsIds;
 
-    @NotNull(message = "The value should not be null")
-    @NotEmpty(message = "Movie must have at list 1 genre")
-    private List<Long> genresIds;
+//    @NotNull(message = "The value should not be null")
+//    @NotEmpty(message = "Movie must have at list 1 genre")
+    private Genre genre;
 
-    @NotNull(message = "The value should not be null")
-    @NotEmpty(message = "Movie must have at list 1 country")
-    private List<Long> countriesIds;
+//    @NotNull(message = "The value should not be null")
+//    @NotEmpty(message = "Movie must have at list 1 country")
+    private Country country;
+
     @NotNull
     private LocalDate dateAdded;
 

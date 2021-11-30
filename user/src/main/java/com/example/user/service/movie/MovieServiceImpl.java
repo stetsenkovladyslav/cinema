@@ -96,7 +96,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public void addToFavorite(Long userId, Long movieId) {
+    public void addToFavorite(Long movieId) {
+        Long userId = authenticationService.getAuthenticatedUser().getId();
         if (!movieRepository.existsById(movieId)) {
             throw new EntityNotFoundException("Movie with id:{" + movieId + "} does not exist");
         } else if(!userRepository.existsById(userId)){

@@ -1,9 +1,9 @@
 package com.example.admin.criteria;
 
 
-import com.example.root.model.Country;
+import com.example.root.enums.Country;
+import com.example.root.enums.Genre;
 import com.example.root.model.Director;
-import com.example.root.model.Genre;
 import com.example.root.model.Movie;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -19,27 +19,32 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class MovieCriteria {
     private String genre;
-    private String countryName;
+    private String country;
     private String directorName;
-    private String name;
+    private String title;
+
 
     public Specification<Movie> buildCriteria() {
         return ((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            if (Objects.nonNull(genre)) {
-                ListJoin<Movie, Genre> joinedGenreList = root.joinList("genres");
-                predicates.add(criteriaBuilder.equal(joinedGenreList.get("genreName"), genre)
-                );
+            if (genre != null && !genre.isBlank()) {
+                Predicate movieNamePredicate = criteriaBuilder.equal(root.get("genre"), genre);
+                predicates.add(movieNamePredicate);
             }
+            if (country != null && !country.isBlank()) {
+                Predicate movieNamePredicate = criteriaBuilder.equal(root.get("country"), country);
+                predicates.add(movieNamePredicate);
+            }
+
+            if (title != null && !title.isBlank()) {
+                Predicate movieNamePredicate = criteriaBuilder.equal(root.get("movies_title"), title);
+                predicates.add(movieNamePredicate);
+            }
+
             if (Objects.nonNull(directorName)) {
                 ListJoin<Movie, Director> joinedDirectorList = root.joinList("directors");
                 predicates.add(criteriaBuilder.equal(joinedDirectorList.get("directorName"), directorName)
-                );
-            }
-            if (Objects.nonNull(countryName)) {
-                ListJoin<Movie, Country> joinedCountryList = root.joinList("countries");
-                predicates.add(criteriaBuilder.equal(joinedCountryList.get("countryName"), countryName)
                 );
             }
             query.distinct(true);

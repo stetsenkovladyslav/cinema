@@ -21,7 +21,6 @@ public class Video extends BaseEntity {
     @ManyToOne
     private Movie movie;
 
-
     @Enumerated(EnumType.ORDINAL)
     private VideoFormat format;
 }

@@ -86,10 +86,9 @@ public class MovieController {
     @PostMapping(value = "/favorites", params = {"userId", "movieId"})
     @Secured("ROLE_USER")
     void addToFavorite(
-            @RequestParam @Valid @Positive(message = "Value must be higher than 0") Long userId,
             @RequestParam @Valid @Positive(message = "Value must be higher than 0") Long movieId)
             {
-        movieService.addToFavorite(userId, movieId);
+        movieService.addToFavorite(movieId);
     }
 
     @GetMapping(value = "/favorites")

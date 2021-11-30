@@ -1,9 +1,9 @@
 package com.example.user.criteria;
 
 
-import com.example.root.model.Country;
+import com.example.root.enums.Country;
+import com.example.root.enums.Genre;
 import com.example.root.model.Director;
-import com.example.root.model.Genre;
 import com.example.root.model.Movie;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

@@ -1,5 +1,7 @@
 package com.example.root.dto.movie;
 
+import com.example.root.enums.Country;
+import com.example.root.enums.Genre;
 import com.example.root.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,13 +34,9 @@ public class MovieDTO {
     @NotEmpty(message = "Movie must have at list 1 director")
     private List<Director> directors;
 
-    @NotNull(message = "The value should not be null")
-    @NotEmpty(message = "Movie must have at list 1 genre")
-    private List<Genre> genres;
+    private Genre genre;
 
-    @NotNull(message = "The value should not be null")
-    @NotEmpty(message = "Movie must have at list 1 country")
-    private List<Country> countries;
+    private Country country;
 
     @Size(max = 128, message = "Movie photo name must be less than 128 characters")
     private List<String> image;

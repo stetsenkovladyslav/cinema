@@ -1,12 +1,12 @@
 package com.example.root.model;
 
+import com.example.root.enums.Country;
+import com.example.root.enums.Genre;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -15,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "movies")
-public class Movie extends BaseEntity{
+public class Movie extends BaseEntity {
 
     @Column(name = "title")
     private String movieTitle;
@@ -37,27 +37,19 @@ public class Movie extends BaseEntity{
     @Column(name = "date_release")
     private LocalDate dateRelease;
 
-    @ManyToMany
-    @JoinTable(name = "movie_genres",
-            joinColumns = @JoinColumn(name = "movie_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    @Column(name = "genre_name")
-    private List<Genre> genres;
+    @Enumerated(EnumType.STRING)
+    private Genre genre;
 
-    @ManyToMany
-    @JoinTable(name = "movie_countries",
-            joinColumns = @JoinColumn(name = "movie_id"),
-            inverseJoinColumns = @JoinColumn(name = "country_id"))
-    @Column(name = "country_name")
-    private List<Country> countries;
+    @Enumerated(EnumType.STRING)
+    private Country country;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name  = "movie_id")
+    @JoinColumn(name = "movie_id")
     @ToString.Exclude
     private List<Video> videos;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name  = "movie_id")
+    @JoinColumn(name = "movie_id")
     @ToString.Exclude
     private List<Image> images;
 

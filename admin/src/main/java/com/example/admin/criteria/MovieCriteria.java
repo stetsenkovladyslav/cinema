@@ -8,17 +8,17 @@ import com.example.root.model.Director;
 import com.example.root.model.Movie;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @RequiredArgsConstructor
+@Accessors(chain = true)
 public class MovieCriteria {
     private List<Genre> genre;
     private List<Country> country;

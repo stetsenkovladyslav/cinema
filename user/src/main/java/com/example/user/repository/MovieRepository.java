@@ -2,7 +2,6 @@ package com.example.user.repository;
 
 
 import com.example.root.model.Movie;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +9,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.List;
 
 public interface MovieRepository extends JpaRepository<Movie, Long>, JpaSpecificationExecutor<Movie> {
 
@@ -30,4 +32,13 @@ public interface MovieRepository extends JpaRepository<Movie, Long>, JpaSpecific
     @Query(value = "SELECT m.* FROM history h LEFT OUTER JOIN movies m on h.movie_id = m.id WHERE h.user_id = ?1",nativeQuery = true)
     Page<Movie> findAllMoviesInHistoryByUserId(Long userId, Pageable pageable);
 
+
+    @Query("SELECT DISTINCT movie.dateRelease FROM Movie movie")
+    List<LocalDate> findAllDateRelease();
+
+    @Query("SELECT DISTINCT movie.dateAdded FROM Movie movie")
+    List<LocalDate>  findAllDateAdded();
+
+    @Query("SELECT DISTINCT movie.movieTitle FROM Movie movie")
+    List<String>  findAllMovieTitle();
 }

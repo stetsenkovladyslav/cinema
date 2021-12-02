@@ -10,9 +10,11 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.Predicate;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +26,6 @@ public class MovieCriteria {
     private List<Country> country;
     private List<String> directorName;
     private List<String> movieTitle;
-
 
     public Specification<Movie> buildCriteria() {
         return ((root, query, criteriaBuilder) -> {
@@ -38,7 +39,6 @@ public class MovieCriteria {
                 Predicate titlePredicate = criteriaBuilder.equal(root.get("movieTitle"), movieTitle);
                 predicates.add(titlePredicate);
             }
-
             if (!CollectionUtils.isNullOrEmpty(directorName)) {
                 ListJoin<Movie, Director> joinedDirectorList = root.joinList("directors");
                 predicates.add(criteriaBuilder.equal(joinedDirectorList.get("directorName"), directorName)

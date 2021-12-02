@@ -1,4 +1,5 @@
 package com.example.root.enums;
 
-public class BaseEnum {
+public interface BaseEnum {
+    public String getValue();
 }

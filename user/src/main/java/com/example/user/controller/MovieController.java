@@ -7,6 +7,8 @@ import com.example.root.exception.InvalidRatingValueException;
 import com.example.root.model.Movie;
 import com.example.root.model.Rate;
 import com.example.user.criteria.MovieCriteria;
+import com.example.user.page.MoviePage;
+import com.example.user.criteria.MovieSearchQuery;
 import com.example.user.mapper.MovieMapper;
 import com.example.user.service.movie.MovieService;
 import lombok.RequiredArgsConstructor;
@@ -104,4 +106,12 @@ public class MovieController {
     Page<Movie> getHistory(Pageable pageable) {
         return movieService.getHistory(pageable);
     }
+
+
+    @GetMapping(value = "/filter")
+    @Secured("ROLE_USER")
+    MoviePage getAll(MovieSearchQuery searchQuery, Pageable pageable) {
+        return movieService.findAll(pageable, searchQuery);
+    }
+
 }

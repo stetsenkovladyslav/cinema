@@ -44,11 +44,6 @@ public class MovieCriteria {
                 predicates.add(titlePredicate);
             }
 
-            if (!CollectionUtils.isNullOrEmpty(movieTitle)) {
-                Predicate titlePredicate = criteriaBuilder.equal(root.get("movieTitle"), movieTitle);
-                predicates.add(titlePredicate);
-            }
-
             if (!CollectionUtils.isNullOrEmpty(directorName)) {
                 ListJoin<Movie, Director> joinedDirectorList = root.joinList("directors");
                 predicates.add(criteriaBuilder.equal(joinedDirectorList.get("directorName"), directorName)

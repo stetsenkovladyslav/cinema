@@ -21,17 +21,17 @@ public class LocalstackClientConfig {
 
     private final String bucketName;
 
-    public LocalstackClientConfig(@Value("${aws.s3.bucket:bucket}") String bucketName) {
+    public LocalstackClientConfig(@Value("${aws.s3-bucket}") String bucketName) {
         this.bucketName = bucketName;
     }
 
     @Bean
-    public AwsFileService awsFileService(@Autowired AmazonS3 s3Client, @Value("${aws.s3.bucket:bucket}") String bucketName) {
+    public AwsFileService awsFileService(@Autowired AmazonS3 s3Client, @Value("${aws.s3-bucket}") String bucketName) {
         return new AwsFileServiceImpl(s3Client, bucketName);
     }
 
     @Bean
-    public AmazonS3 s3Client(@Value("${aws.localstack-url}") String localhost) {
+    public AmazonS3 s3Client(@Value("http://localhost:4566") String localhost) {
         AmazonS3 localstackClient = AmazonS3ClientBuilder.standard()
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(localhost, "us-west-1"))
                 .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials("accesskey", "secretkey")))

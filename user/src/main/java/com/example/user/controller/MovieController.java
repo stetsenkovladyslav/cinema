@@ -25,11 +25,37 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
 @RestController
-@RequestMapping("/users/movies")
+@RequestMapping("/movies")
 @RequiredArgsConstructor
 public class MovieController {
     private final MovieService movieService;
     private final MovieMapper movieMapper;
+
+    @GetMapping(value = "/{movieId}")
+    @Secured("ROLE_USER")
+    MovieDTO getMovie(
+            @PathVariable @Valid @Positive(message = "Value must be higher than 0") Long movieId
+    ) {
+        return movieService.getMovieById(movieId);
+    }
+    @GetMapping(value = "/image/{imageId}",
+            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @Secured("ROLE_USER")
+    public ResponseEntity<InputStreamResource> getImage(@PathVariable long imageId) {
+        return ResponseEntity.ok()
+                .header("Content-disposition", "attachment; fileName=" + imageId + ".jpg")
+                .body(movieService.getImage(imageId));
+    }
+
+    @Secured("ROLE_USER")
+    @GetMapping(value = "/video/{videoId}",
+            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<InputStreamResource> getVideo(@PathVariable long videoId) {
+        return ResponseEntity.ok()
+                .header("Content-disposition", "attachment; fileName=" + videoId + ".mp4")
+                .body(movieService.getVideo(videoId));
+    }
+
 
     @PostMapping(value = "/{movieId}/comment")
     @Secured("ROLE_USER")
@@ -52,61 +78,19 @@ public class MovieController {
         return new ResponseEntity<>(rate, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{movieId}")
-    @Secured("ROLE_USER")
-    MovieDTO getMovie(
-            @PathVariable @Valid @Positive(message = "Value must be higher than 0") Long movieId
-    ) {
-        return movieService.getMovieById(movieId);
-    }
-
     @GetMapping
     @Secured("ROLE_USER")
-    ResponseEntity<Page<MovieDTO>> getAllMovies(Pageable pageable, MovieCriteria movieCriteria) {
-        Page<Movie> allMovies = movieService.getAllMovies(pageable, movieCriteria);
-        return ResponseEntity.ok(allMovies.map(movieMapper::toDTO));
+    Page<MovieDTO> getAllMovies(Pageable pageable, MovieCriteria movieCriteria) {
+        return movieService.getAllMovies(pageable, movieCriteria);
     }
 
-    @GetMapping(value = "/image/{imageId}",
-            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    @Secured("ROLE_USER")
-    public ResponseEntity<InputStreamResource> getImage(@PathVariable long imageId) {
-        return ResponseEntity.ok()
-                .header("Content-disposition", "attachment; fileName=" + imageId + ".jpg")
-                .body(movieService.getImage(imageId));
-    }
-
-    @Secured("ROLE_USER")
-    @GetMapping(value = "/video/{videoId}",
-            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public ResponseEntity<InputStreamResource> getVideo(@PathVariable long videoId) {
-        return ResponseEntity.ok()
-                .header("Content-disposition", "attachment; fileName=" + videoId + ".mp4")
-                .body(movieService.getVideo(videoId));
-    }
-
-    @PostMapping(value = "/favorites", params = {"userId", "movieId"})
+    @PostMapping(value = "/favorites", params = {"movieId"})
     @Secured("ROLE_USER")
     void addToFavorite(
             @RequestParam @Valid @Positive(message = "Value must be higher than 0") Long movieId)
             {
         movieService.addToFavorite(movieId);
     }
-
-    @GetMapping(value = "/favorites")
-    @Secured("ROLE_USER")
-    Page<Movie> getAllFavorites(
-            Pageable pageable
-    ) {
-        return movieService.getAllFavorites(pageable);
-    }
-
-    @GetMapping(value = "/history")
-    @Secured("ROLE_USER")
-    Page<Movie> getHistory(Pageable pageable) {
-        return movieService.getHistory(pageable);
-    }
-
 
     @GetMapping(value = "/filter")
     @Secured("ROLE_USER")

@@ -1,14 +1,11 @@
 package com.example.admin.service.movie;
 
 
-import com.example.root.dto.comment.CommentRequest;
-import com.example.root.dto.movie.MovieDTO;
 import com.example.admin.criteria.MovieCriteria;
+import com.example.root.dto.movie.MovieDTO;
 import com.example.root.dto.movie.MovieRequest;
 import com.example.root.dto.movie.UpdateMovieRequest;
-import com.example.root.exception.InvalidRatingValueException;
 import com.example.root.model.Movie;
-import com.example.root.model.Rate;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +24,7 @@ public interface MovieService {
 
     MovieDTO getMovieById(long id);
 
-    Page<Movie> getAllMovies(Pageable pageable, MovieCriteria movieCriteria);
+    Page<MovieDTO> getAllMovies(Pageable pageable, MovieCriteria movieCriteria);
 
     MovieDTO addImage(Long id, MultipartFile file) throws IOException;
 

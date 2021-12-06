@@ -37,9 +37,8 @@ public class MovieController {
 
     @GetMapping
     @Secured("ROLE_ADMIN")
-    ResponseEntity<Page<MovieDTO>> getAllMovies(Pageable pageable, MovieCriteria movieCriteria) {
-        Page<Movie> allBooks = movieService.getAllMovies(pageable, movieCriteria);
-        return ResponseEntity.ok(allBooks.map(movieMapper::mapToDTO));
+    Page<MovieDTO> getAllMovies(Pageable pageable, MovieCriteria movieCriteria) {
+        return movieService.getAllMovies(pageable, movieCriteria);
     }
 
     @GetMapping(value = "/{id}")
@@ -65,53 +64,5 @@ public class MovieController {
         movieService.deleteMovieById(id);
     }
 
-    @PostMapping(value = "{movieId}/image",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Secured("ROLE_ADMIN")
-    public MovieDTO addImage(
-            @PathVariable Long movieId,
-            @RequestBody MultipartFile multipartFile
-    ) throws IOException {
-        return movieService.addImage(movieId, multipartFile);
-    }
 
-    @PostMapping(value = "{movieId}/video",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Secured("ROLE_ADMIN")
-    public MovieDTO addVideo(
-            @PathVariable Long movieId,
-            @RequestBody MultipartFile multipartFile
-    ) throws IOException {
-        return movieService.addVideo(movieId, multipartFile);
-    }
-
-    @GetMapping(value = "/image/{id}",
-            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    @Secured("ROLE_ADMIN")
-    public ResponseEntity<InputStreamResource> getImage(@PathVariable long id) {
-        return ResponseEntity.ok()
-                .header("Content-disposition", "attachment; fileName=" + id + ".jpg")
-                .body(movieService.getImage(id));
-    }
-
-    @GetMapping(value = "/video/{id}",
-            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    @Secured("ROLE_ADMIN")
-    public ResponseEntity<InputStreamResource> getVideo(@PathVariable long id) {
-        return ResponseEntity.ok()
-                .header("Content-disposition", "attachment; fileName=" + id + ".mp4")
-                .body(movieService.getVideo(id));
-    }
-
-    @DeleteMapping(value = "/image/{id}")
-    @Secured("ROLE_ADMIN")
-    public void deleteImage(@PathVariable Long id) {
-        movieService.deleteImage(id);
-    }
-
-    @DeleteMapping(value = "/video/{id}")
-    @Secured("ROLE_ADMIN")
-    public void deleteVideo(@PathVariable Long id) {
-        movieService.deleteVideo(id);
-    }
 }

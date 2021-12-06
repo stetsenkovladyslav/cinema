@@ -15,10 +15,20 @@ spring:
       max-file-size: 1000000MB
       max-request-size: 10000000MB
 
-#  facebook-api-key=688436255436617
-#  facebook-api-secret=8b47df4e6fb3e5fb2236d4179177e88a
+  social:
+    facebook:
+      appId: 4615985991782963
+      appSecret: 57b30bf884a949b3efc5940c447f53a5
+
+  mvc:
+    view:
+      prefix: webapp/WEB-INF/jsp/
+      suffix: .jsp
+
 
 server:
+  servlet:
+    register-default-servlet: true
   port: 8082
   tomcat:
     relaxed-query-chars:   <, > ,[ ,\, ] ,^ ,`, {, |, }

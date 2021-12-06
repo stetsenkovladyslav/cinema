@@ -1,5 +1,6 @@
 package com.example.user.service.auth;
 
+import com.example.root.dto.jwt.JwtResponse;
 import com.example.root.dto.user.AuthenticationRequest;
 import com.example.root.dto.user.UserDto;
 import com.example.root.enums.Role;
@@ -36,6 +37,18 @@ public class AuthServiceImpl implements AuthService {
     private final JwtUtil jwtUtil;
     private final UserService userService;
 
+    @Autowired
+    public AuthServiceImpl(UserRepository userRepository, @Lazy BCryptPasswordEncoder encoder,
+                           UserMapper userMapper, @Lazy AuthenticationManager authenticationManager,
+                           JwtUtil jwtUtil, UserService userService) {
+        this.userRepository = userRepository;
+        this.encoder = encoder;
+        this.userMapper = userMapper;
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
+        this.userService = userService;
+    }
+
     @Nullable
     private Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
@@ -53,20 +66,9 @@ public class AuthServiceImpl implements AuthService {
         UserDetails user = (UserDetails) principal;
         return (User) userService.loadUserByUsername(user.getUsername());
     }
-    @Autowired
-    public AuthServiceImpl(UserRepository userRepository, @Lazy BCryptPasswordEncoder encoder,
-                           UserMapper userMapper, AuthenticationManager authenticationManager,
-                           JwtUtil jwtUtil, UserService userService) {
-        this.userRepository = userRepository;
-        this.encoder = encoder;
-        this.userMapper = userMapper;
-        this.authenticationManager = authenticationManager;
-        this.jwtUtil = jwtUtil;
-        this.userService = userService;
-    }
 
     @Override
-    public String login(AuthenticationRequest auth) {
+    public JwtResponse login(AuthenticationRequest auth) {
         String username = auth.getUsername();
         String password = auth.getPassword();
         var user = userRepository.findByUsername(username)
@@ -74,11 +76,11 @@ public class AuthServiceImpl implements AuthService {
         if (!encoder.matches(password, user.getPassword()))
             throw new AccessDeniedException("Incorrect password");
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(auth.getUsername(), auth.getPassword()));
-        return jwtUtil.generateToken(user);
+        return new JwtResponse(jwtUtil.generateToken(user));
     }
 
     @Override
-    public User register(UserDto userDto) throws UserAlreadyExistException {
+    public JwtResponse register(UserDto userDto) throws UserAlreadyExistException {
         if (userRepository.findByUsername(userDto.getUsername()).isPresent()) {
             throw new UserAlreadyExistException("User with this username already exist");
         }
@@ -91,6 +93,7 @@ public class AuthServiceImpl implements AuthService {
         newUser.setLocked(false);
         newUser.setEnabled(true);
         userRepository.save(newUser);
-        return userRepository.save(newUser);
+        return new JwtResponse(jwtUtil.generateToken(newUser));
+
     }
 }

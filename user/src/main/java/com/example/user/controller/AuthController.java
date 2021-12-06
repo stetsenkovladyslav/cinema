@@ -19,28 +19,22 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final AuthService authService;
-    private final JwtUtil jwtUtil;
     private final UserService adminService;
 
 
-
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/signin/native")
     public JwtResponse createAuthenticationToken(@RequestBody @Valid AuthenticationRequest auth) {
-        return new JwtResponse(authService.login(auth));
+        return authService.login(auth);
     }
 
-    @PostMapping(
-            value = "/register")
-    public ResponseEntity<String> registerUser(@RequestBody @Valid UserDto userDto) {
-        User newUser = authService.register(userDto);
-        return ResponseEntity.ok(jwtUtil.generateToken(newUser));
+    @PostMapping(value = "/signup/native")
+    public JwtResponse registerUser(@RequestBody @Valid UserDto userDto) {
+        return authService.register(userDto);
     }
 
     @GetMapping("/activate/{code}")
     public ResponseEntity<String> activate(Model model, @PathVariable String code) {
-        boolean isActivated =
-                adminService.activateAdmin(code);
-
+        boolean isActivated = adminService.activateAdmin(code);
         if (isActivated) {
             model.addAttribute("messageType", "success");
         } else {
@@ -48,6 +42,9 @@ public class AuthController {
         }
         return ResponseEntity.ok("ADMIN successfully activated");
     }
+
+
+
 
 
 

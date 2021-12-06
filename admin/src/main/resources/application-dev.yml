@@ -33,7 +33,7 @@ server:
     relaxed-query-chars:   <, > ,[ ,\, ] ,^ ,`, {, |, }
 aws:
   s3-bucket: bucket
-  localstack-url: http://${LOCALSTACK_URL:localhost}:4566
+  localstack-url: http://localstack:4566
 
 jwt:
   token:

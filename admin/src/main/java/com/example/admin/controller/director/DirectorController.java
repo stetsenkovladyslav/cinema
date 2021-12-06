@@ -31,12 +31,8 @@ public class DirectorController {
 
     @GetMapping
     @Secured("ROLE_ADMIN")
-    ResponseEntity<Page<DirectorDTO>> getAllDirectors(Pageable pageable) {
-        Page<Director> allDirectors = directorService.getAllDirectors(pageable);
-        if (allDirectors.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(allDirectors.map(directorMapper::toDTO));
+    Page<Director> getAllDirectors(Pageable pageable) {
+        return directorService.getAllDirectors(pageable);
     }
 
     @GetMapping(value = "/{id}")

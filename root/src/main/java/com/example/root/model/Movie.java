@@ -2,6 +2,7 @@ package com.example.root.model;
 
 import com.example.root.enums.Country;
 import com.example.root.enums.Genre;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -46,11 +47,13 @@ public class Movie extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "movie_id")
     @ToString.Exclude
+    @JsonIgnore
     private List<Video> videos;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "movie_id")
     @ToString.Exclude
+    @JsonIgnore
     private List<Image> images;
 
     @OneToOne(cascade = CascadeType.ALL)

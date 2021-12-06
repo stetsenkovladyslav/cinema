@@ -22,7 +22,6 @@ public class Image extends BaseEntity {
     @ManyToOne
     private Movie movie;
 
-
     @Enumerated(EnumType.ORDINAL)
     private ImageFormat format;
 

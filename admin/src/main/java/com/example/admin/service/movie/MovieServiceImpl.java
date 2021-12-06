@@ -62,8 +62,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Page<Movie> getAllMovies(Pageable pageable, MovieCriteria movieCriteria) {
-        return movieRepository.findAll(movieCriteria.buildCriteria(), pageable);
+    public Page<MovieDTO> getAllMovies(Pageable pageable, MovieCriteria movieCriteria) {
+        return movieRepository.findAll(movieCriteria.buildCriteria(), pageable).map(movieMapper::mapToDTO);
     }
 
     @Override

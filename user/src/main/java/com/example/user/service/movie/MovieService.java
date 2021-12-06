@@ -17,8 +17,7 @@ public interface MovieService {
 
     MovieDTO getMovieById(long id);
 
-    Page<Movie> getAllMovies(Pageable pageable, MovieCriteria movieCriteria);
-
+    Page<MovieDTO> getAllMovies(Pageable pageable, MovieCriteria movieCriteria);
     InputStreamResource getImage(Long id);
 
     InputStreamResource getVideo(Long Id);

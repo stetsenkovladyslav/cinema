@@ -3,6 +3,7 @@ package com.example.root.dto.user;
 import com.example.root.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
 
     @NotBlank(message = "FirstName field must not be empty")
@@ -35,7 +37,5 @@ public class UserDto {
     @NotNull(message = "The value should not be null")
     private Role role;
 
-    @NotBlank(message = "Email field must not be empty")
-    @NotNull(message = "The value should not be null")
     private String email;
 }

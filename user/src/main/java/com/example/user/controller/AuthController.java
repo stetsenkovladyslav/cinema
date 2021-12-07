@@ -19,33 +19,23 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final AuthService authService;
-    private final UserService adminService;
+    private final UserService userService;
 
 
-    @PostMapping(value = "/signin/native")
+    @PostMapping(value = "/signin")
     public JwtResponse createAuthenticationToken(@RequestBody @Valid AuthenticationRequest auth) {
         return authService.login(auth);
     }
 
-    @PostMapping(value = "/signup/native")
+    @PostMapping(value = "/signup")
     public JwtResponse registerUser(@RequestBody @Valid UserDto userDto) {
         return authService.register(userDto);
     }
 
     @GetMapping("/activate/{code}")
-    public ResponseEntity<String> activate(Model model, @PathVariable String code) {
-        boolean isActivated = adminService.activateAdmin(code);
-        if (isActivated) {
-            model.addAttribute("messageType", "success");
-        } else {
-            model.addAttribute("messageType", "danger");
-        }
-        return ResponseEntity.ok("ADMIN successfully activated");
+    public String activate(@PathVariable String code) {
+        userService.activateAdmin(code);
+        return "ADMIN successfully activated";
     }
-
-
-
-
-
 
 }

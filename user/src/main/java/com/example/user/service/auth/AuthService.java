@@ -1,5 +1,6 @@
 package com.example.user.service.auth;
 
+import antlr.TokenStreamRewriteEngine;
 import com.example.root.dto.jwt.JwtResponse;
 import com.example.root.dto.user.AuthenticationRequest;
 import com.example.root.dto.user.UserDto;
@@ -13,4 +14,6 @@ public interface AuthService {
 
     @NonNull
     User getAuthenticatedUser();
+
+
 }

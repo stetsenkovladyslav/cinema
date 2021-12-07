@@ -1,11 +1,9 @@
-package com.example.user.facebook;
+package com.example.user.service.auth;
 
+import com.example.root.dto.jwt.JwtResponse;
 import com.example.root.dto.user.UserDto;
 import com.example.root.enums.Role;
-import com.example.root.jwt.JwtUtil;
-import com.example.user.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.User;
@@ -13,59 +11,38 @@ import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Locale;
 
-@Controller
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+
+@Service
 @RequiredArgsConstructor
-public class OAuthController {
-
+public class OAuthServiceImpl implements OAuthService {
     private final FacebookConnectionFactory factory;
-
-    private final BCryptPasswordEncoder encoder;
-
     private final AuthService authService;
 
-    private final JwtUtil jwtUtil;
-
-    @PostMapping
-    public String register() {
-        OAuth2Operations operations = factory.getOAuthOperations();
-        return null;
-    }
-
-    @GetMapping(value = "/facebook")
-    public String producer() {
-
+    @Override
+    public RedirectView getUrl() {
         OAuth2Operations operations = factory.getOAuthOperations();
         OAuth2Parameters params = new OAuth2Parameters();
-
-        params.setRedirectUri("http://localhost:8082/forwardLogin");
+        params.setRedirectUri("http://localhost:8082/token");
         params.setScope("email,public_profile");
-
         String url = operations.buildAuthenticateUrl(params);
-        System.out.println("The URL is" + url);
-        return "redirect:" + url;
-
+        return new RedirectView(url);
     }
 
-    @RequestMapping(value = "/forwardLogin")
-    public ModelAndView prodducer(@RequestParam("code") String authorizationCode) {
+    @Override
+    public JwtResponse token(String authorizationCode) {
         OAuth2Operations operations = factory.getOAuthOperations();
-        AccessGrant accessToken = operations.exchangeForAccess(authorizationCode, "http://localhost:8082/forwardLogin",
+        AccessGrant accessToken = operations.exchangeForAccess(authorizationCode, "http://localhost:8082/token",
                 null);
-
         Connection<Facebook> connection = factory.createConnection(accessToken);
         Facebook facebook = connection.getApi();
         String[] fields = {"email", "first_name", "last_name"};
         User user = facebook.fetchObject("me", User.class, fields);
-
         UserDto userDto = new UserDto();
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
@@ -73,12 +50,8 @@ public class OAuthController {
         String username = (user.getFirstName().charAt(0) + user.getLastName()).toLowerCase(Locale.ROOT);
         userDto.setUsername(username);
         userDto.setRole(Role.USER);
-//        userDto.setPassword(randomAlphabetic(8));
-        userDto.setPassword(username);
-        ModelAndView modelAndView = new ModelAndView("index.jsp");
-        modelAndView.addObject("token", authService.register(userDto).getToken());
-        return modelAndView;
+        userDto.setPassword(randomAlphabetic(8));
+        return new JwtResponse(authService.register(userDto).getToken());
 
     }
-
 }

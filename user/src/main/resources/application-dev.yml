@@ -22,7 +22,7 @@ spring:
 
   mvc:
     view:
-      prefix: webapp/WEB-INF/jsp/
+      prefix: /static/
       suffix: .jsp
 
 

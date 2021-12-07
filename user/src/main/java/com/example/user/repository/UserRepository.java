@@ -14,5 +14,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Page<User> findAllByEnabledIsFalse(Pageable pageable);
 
     User findByCode(String code);
-
 }

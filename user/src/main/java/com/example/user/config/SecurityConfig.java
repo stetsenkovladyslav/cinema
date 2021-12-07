@@ -1,4 +1,4 @@
-package com.example.user.security;
+package com.example.user.config;
 
 import com.example.root.jwt.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/", "/register", "/login*", "/activate/*", "/signin/**","/signup/**", "/useApplication","/facebook*", "/forwardLogin*").permitAll()
+                .antMatchers("/", "/register", "/login*", "/activate/*", "/signin/**","/signup/**","/facebook*", "/token*").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

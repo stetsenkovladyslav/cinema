@@ -2,6 +2,7 @@ package com.example.user.service.auth;
 
 import com.example.root.dto.jwt.JwtResponse;
 import com.example.root.dto.user.AuthenticationRequest;
+import com.example.root.dto.user.FacebookAuthenticationRequest;
 import com.example.root.dto.user.UserDto;
 import com.example.root.enums.Role;
 import com.example.root.exception.AuthenticationException;
@@ -12,6 +13,7 @@ import com.example.user.mapper.UserMapper;
 import com.example.user.repository.UserRepository;
 import com.example.user.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.lang.NonNull;
@@ -26,6 +28,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -79,6 +82,8 @@ public class AuthServiceImpl implements AuthService {
         return new JwtResponse(jwtUtil.generateToken(user));
     }
 
+
+
     @Override
     public JwtResponse register(UserDto userDto) throws UserAlreadyExistException {
         if (userRepository.findByUsername(userDto.getUsername()).isPresent()) {
@@ -96,4 +101,5 @@ public class AuthServiceImpl implements AuthService {
         return new JwtResponse(jwtUtil.generateToken(newUser));
 
     }
+
 }

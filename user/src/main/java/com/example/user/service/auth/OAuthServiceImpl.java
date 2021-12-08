@@ -1,8 +1,10 @@
 package com.example.user.service.auth;
 
 import com.example.root.dto.jwt.JwtResponse;
+import com.example.root.dto.user.AuthenticationRequest;
 import com.example.root.dto.user.UserDto;
 import com.example.root.enums.Role;
+import com.example.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.facebook.api.Facebook;
@@ -16,13 +18,13 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Locale;
 
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
-
 @Service
 @RequiredArgsConstructor
 public class OAuthServiceImpl implements OAuthService {
     private final FacebookConnectionFactory factory;
     private final AuthService authService;
+    private final UserRepository userRepository;
+
 
     @Override
     public RedirectView getUrl() {
@@ -43,15 +45,22 @@ public class OAuthServiceImpl implements OAuthService {
         Facebook facebook = connection.getApi();
         String[] fields = {"email", "first_name", "last_name"};
         User user = facebook.fetchObject("me", User.class, fields);
-        UserDto userDto = new UserDto();
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
-        userDto.setEmail(user.getEmail());
-        String username = (user.getFirstName().charAt(0) + user.getLastName()).toLowerCase(Locale.ROOT);
-        userDto.setUsername(username);
-        userDto.setRole(Role.USER);
-        userDto.setPassword(randomAlphabetic(8));
-        return new JwtResponse(authService.register(userDto).getToken());
+        String email = user.getEmail();
+        if (userRepository.findByEmail(email) == null) {
+            UserDto userDto = new UserDto();
+            userDto.setFirstName(user.getFirstName());
+            userDto.setLastName(user.getLastName());
+            userDto.setEmail(user.getEmail());
+            String username = (user.getFirstName().charAt(0) + user.getLastName()).toLowerCase(Locale.ROOT);
+            userDto.setUsername(username);
+            userDto.setRole(Role.USER);
+            userDto.setPassword(username);
+            return new JwtResponse(authService.register(userDto).getToken());
+        } else {
+            String password = userRepository.getUsernameByEmail(email);
+            String username = userRepository.getUsernameByEmail(email);
+            return new JwtResponse(authService.login(new AuthenticationRequest(username, password)).getToken());
+        }
 
     }
 }

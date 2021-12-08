@@ -3,13 +3,9 @@ package com.example.user.controller;
 import com.example.root.dto.jwt.JwtResponse;
 import com.example.root.dto.user.AuthenticationRequest;
 import com.example.root.dto.user.UserDto;
-import com.example.root.jwt.JwtUtil;
-import com.example.root.model.User;
 import com.example.user.service.auth.AuthService;
 import com.example.user.service.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

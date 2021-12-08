@@ -110,7 +110,7 @@ public class MovieServiceImpl implements MovieService {
         if (!movieRepository.existsById(movieId)) {
             throw new EntityNotFoundException("Movie with id:{" + movieId + "} does not exist");
         } else if (!userRepository.existsById(userId)) {
-            throw new EntityNotFoundException("User with id:{" + userId + "} does not exist");
+            throw new EntityNotFoundException("UserEntity with id:{" + userId + "} does not exist");
         }
         movieRepository.addToFavorite(userId, movieId);
     }

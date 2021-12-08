@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 @Table(name = "users")
 @NoArgsConstructor
-public class User extends BaseEntity implements UserDetails {
+public class UserEntity extends BaseEntity implements UserDetails {
 
     @OneToOne
     private Image image;
@@ -51,7 +51,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "email")
     private String email;
 
-    public User(String firstName, String lastName, Role role, String email) {
+    public UserEntity(String firstName, String lastName, Role role, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;

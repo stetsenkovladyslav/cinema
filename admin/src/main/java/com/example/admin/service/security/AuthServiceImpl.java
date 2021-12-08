@@ -1,13 +1,8 @@
 package com.example.admin.service.security;
 
-import com.example.admin.mapper.UserMapper;
 import com.example.admin.repository.UserRepository;
 import com.example.root.dto.user.AuthenticationRequest;
-import com.example.root.dto.user.UserDto;
-import com.example.root.enums.Role;
-import com.example.root.exception.UserAlreadyExistException;
 import com.example.root.jwt.JwtUtil;
-import com.example.root.model.User;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +10,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +39,7 @@ public class AuthServiceImpl implements AuthService{
         String username = auth.getUsername();
         String password = auth.getPassword();
         var user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("User with username:{" + username + "} does not exist"));
+                .orElseThrow(() -> new EntityNotFoundException("UserEntity with username:{" + username + "} does not exist"));
         if (!encoder.matches(password, user.getPassword()))
             throw new AccessDeniedException("Incorrect password");
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(auth.getUsername(), auth.getPassword()));

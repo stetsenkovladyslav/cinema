@@ -1,9 +1,10 @@
 package com.example.user.service.auth;
 
 import com.example.root.dto.jwt.JwtResponse;
-import com.example.root.dto.user.AuthenticationRequest;
 import com.example.root.dto.user.UserDto;
 import com.example.root.enums.Role;
+import com.example.root.jwt.JwtUtil;
+import com.example.user.mapper.UserMapper;
 import com.example.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.social.connect.Connection;
@@ -16,7 +17,7 @@ import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.Locale;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,8 @@ public class OAuthServiceImpl implements OAuthService {
     private final FacebookConnectionFactory factory;
     private final AuthService authService;
     private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
+    private final UserMapper userMapper;
 
 
     @Override
@@ -51,16 +54,14 @@ public class OAuthServiceImpl implements OAuthService {
             userDto.setFirstName(user.getFirstName());
             userDto.setLastName(user.getLastName());
             userDto.setEmail(user.getEmail());
-            String username = (user.getFirstName().charAt(0) + user.getLastName()).toLowerCase(Locale.ROOT);
-            userDto.setUsername(username);
             userDto.setRole(Role.USER);
-            userDto.setPassword(username);
+            userDto.setUsername(email);
+            userDto.setPassword(randomAlphanumeric(9));
             return new JwtResponse(authService.register(userDto).getToken());
         } else {
-            String password = userRepository.getUsernameByEmail(email);
-            String username = userRepository.getUsernameByEmail(email);
-            return new JwtResponse(authService.login(new AuthenticationRequest(username, password)).getToken());
+            var facebookUser = userRepository.findByEmail(email);
+            userMapper.mapToDTO(facebookUser);
+            return new JwtResponse(jwtUtil.generateToken(facebookUser));
         }
-
     }
 }

@@ -6,7 +6,7 @@ import com.example.root.dto.user.UpdateProfileRequest;
 import com.example.root.enums.ImageFormat;
 import com.example.root.exception.FileFormatException;
 import com.example.root.model.Image;
-import com.example.root.model.User;
+import com.example.root.model.UserEntity;
 import com.example.user.mapper.ProfileMapper;
 import com.example.user.mapper.UserMapper;
 import com.example.user.repository.ImageRepository;
@@ -37,16 +37,16 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public ProfileDto getProfile() {
         Long id = authService.getAuthenticatedUser().getId();
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User with id:{" + id + "} does not exist"));
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("UserEntity with id:{" + id + "} does not exist"));
         return profileMapper.mapToDTO(user);
     }
 
     @Override
     public ProfileDto updateUserProfile(UpdateProfileRequest profileRequest) {
         Long id = authService.getAuthenticatedUser().getId();
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User with id:{" + id + "} does not exist"));
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("UserEntity with id:{" + id + "} does not exist"));
         return profileMapper.mapToDTO(userRepository.save(profileMapper.update(user, profileRequest)));
     }
 
@@ -54,8 +54,8 @@ public class ProfileServiceImpl implements ProfileService {
     @Transactional
     public ProfileDto addImage(MultipartFile multipartFile) throws IOException {
         Long id = authService.getAuthenticatedUser().getId();
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User with id:{" + id + "} does not exist"));
+        UserEntity user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("UserEntity with id:{" + id + "} does not exist"));
 
         var image = new Image();
         var originalFilename = multipartFile.getOriginalFilename();

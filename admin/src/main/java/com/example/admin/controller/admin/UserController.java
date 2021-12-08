@@ -2,7 +2,7 @@ package com.example.admin.controller.admin;
 
 import com.example.admin.service.admin.AdminService;
 import com.example.root.exception.UserRoleAdminException;
-import com.example.root.model.User;
+import com.example.root.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -30,7 +30,7 @@ public class UserController {
     @DeleteMapping(value = "/{id}")
     @Secured("ROLE_ADMIN")
 
-    public ResponseEntity<User> deleteUser(@PathVariable long id) {
+    public ResponseEntity<UserEntity> deleteUser(@PathVariable long id) {
         adminService.deleteUser(id);
         return ResponseEntity.ok().build();
     }

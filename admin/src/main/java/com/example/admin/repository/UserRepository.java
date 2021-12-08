@@ -1,18 +1,18 @@
 package com.example.admin.repository;
 
-import com.example.root.model.User;
+import com.example.root.model.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    Optional<User> findByUsername(String username);
+    Optional<UserEntity> findByUsername(String username);
 
-    Page<User> findAllByEnabledIsFalse(Pageable pageable);
+    Page<UserEntity> findAllByEnabledIsFalse(Pageable pageable);
 
-    User findByCode(String code);
+    UserEntity findByCode(String code);
 
 }

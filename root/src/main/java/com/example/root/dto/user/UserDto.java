@@ -1,6 +1,7 @@
 package com.example.root.dto.user;
 
 import com.example.root.enums.Role;
+import com.example.root.model.Image;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,11 +32,13 @@ public class UserDto {
 
     @NotBlank(message = "Password field must not be empty")
     @Size(max = 64, message = "Password should not be more than 24 characters")
-    @NotNull(message = "The value should not be null")
     private String password;
 
     @NotNull(message = "The value should not be null")
     private Role role;
 
     private String email;
+
+    private Image image;
+
 }

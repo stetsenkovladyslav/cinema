@@ -1,6 +1,6 @@
 package com.example.admin.service.admin;
 
-import com.example.root.model.User;
+import com.example.root.model.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +14,7 @@ public class EmailServiceImpl implements EmailService {
     final MailSender mailSender;
 
     @Override
-    public void sendMessage(User user) {
+    public void sendMessage(UserEntity user) {
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
                     "Hello, %s %s! \n" +

@@ -1,7 +1,7 @@
 package com.example.user.service.user;
 
 import com.example.root.enums.Role;
-import com.example.root.model.User;
+import com.example.root.model.UserEntity;
 import com.example.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +22,12 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException
-                        ("User with username:{" + username + "} does not exist"));
+                        ("UserEntity with username:{" + username + "} does not exist"));
     }
 
     @Override
     public boolean activateAdmin(String code) {
-        User user = userRepository.findByCode(code);
+        UserEntity user = userRepository.findByCode(code);
         if (user == null) {
             return false;
         }

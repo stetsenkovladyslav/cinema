@@ -1,7 +1,7 @@
 package com.example.admin.service.admin;
 
-import com.example.root.model.User;
+import com.example.root.model.UserEntity;
 
 public interface EmailService {
-    void sendMessage(User user);
+    void sendMessage(UserEntity user);
 }
